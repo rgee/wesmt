@@ -3,10 +3,10 @@
 #include "SDL/SDL.h"
 #include "math.h"
 #include <vector>
+#include "vector2D.h"
 using namespace std;
 
-/* Globals */
-vector<int> dotPos;
+
 
 int radius = 5;
 float rotation = 0.0f;
@@ -98,6 +98,9 @@ int main(int argc, char **argv)
 	SDL_WM_SetCaption("Wesleyan Multitouch Particles", NULL);
 	
 	Init(800, 600);
+	
+	Vector2D vec(5.0, 6.0);
+	
 	
 	while(1)
 	{
