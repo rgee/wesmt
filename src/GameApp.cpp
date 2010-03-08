@@ -1,19 +1,30 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include "SDL/SDL.h"
-#include "math.h"
-#include <vector>
-#include "vector2D.h"
-using namespace std;
+#include "GameApp.h"
+#include "Particle.h"
 
 
-
-int radius = 5;
-float rotation = 0.0f;
-
-void Init(int width, int height)
+void GameApp::Initialize()
 {
-	glViewport(0, 0, width, height);
+	if(SDL_Init(SDL_INIT_VIDEO) < 0)
+	{
+		 fprintf(stderr, "Unable to initialize SDL: %s\n", SDL_GetError());
+	}
+	
+	if(this->is_fullscreen)
+	{
+		SDL_SetVideoMode(this->width, this->height, 0, SDL_FULLSCREEN | SDL_OPENGL);
+	}
+	else
+	{
+		SDL_SetVideoMode(this->width, this->height, 0, SDL_OPENGL);
+	}
+	SDL_WM_SetCaption("Wesleyan Multitouch Particles", NULL);
+	
+	puts("Initializing OpenGL");
+	
+	glViewport(0, 0, this->width, this->height);
 	
 	// Clear the screen to black for each draw call
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f); 
@@ -25,7 +36,7 @@ void Init(int width, int height)
 	// Enable smooth shading
 	glShadeModel(GL_SMOOTH);
 	
-	// Reset the projection matric
+	// Reset the projection matrix
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	
@@ -34,15 +45,36 @@ void Init(int width, int height)
 	glMatrixMode(GL_MODELVIEW);
 }
 
-void Draw()
+void GameApp::HandleInput()
+{
+	SDL_Event event;
+	
+	while(SDL_PollEvent(&event))
+	{
+		if(event.type == SDL_QUIT)
+		{
+			SDL_Quit();
+		}
+		if(event.type == SDL_KEYDOWN)
+		{
+			if(event.key.keysym.sym == SDLK_ESCAPE)
+			{
+				SDL_Quit();
+			}
+		}
+	}
+}
+
+void GameApp::Draw()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	
 	glTranslatef(-1.5f, 1.0f, -6.0f);
+	
+	
 	glRotatef(rotation, 0.0f, 0.0f, 1.0f);
 	
-	// Draw a triangle
 	/*
 	glBegin(GL_POLYGON);
 		glColor3f(1.0f, 0.0f, 0.0f);
@@ -63,50 +95,27 @@ void Draw()
 		}
 	glEnd();
 	
+	
 	SDL_GL_SwapBuffers();
 }
 
-void HandleInput()
+void GameApp::Update()
 {
-	SDL_Event event;
-	
-	while(SDL_PollEvent(&event))
+	rotation += 0.1f;
+	this->HandleInput();
+}
+
+void GameApp::BeginMainLoop()
+{
+	while(1)
 	{
-		if(event.type == SDL_QUIT)
-		{
-			SDL_Quit();
-		}
-		if(event.type == SDL_KEYDOWN)
-		{
-			if(event.key.keysym.sym == SDLK_ESCAPE)
-			{
-				SDL_Quit();
-			}
-		}
+		this->Update();
+		this->Draw();
 	}
 }
 
 int main(int argc, char **argv)
 {
-	if(SDL_Init(SDL_INIT_VIDEO) < 0)
-	{
-		 fprintf(stderr, "Unable to initialize SDL: %s\n", SDL_GetError());
-	}
-	 
-	SDL_SetVideoMode(800, 600, 0, SDL_OPENGL);
-	
-	SDL_WM_SetCaption("Wesleyan Multitouch Particles", NULL);
-	
-	Init(800, 600);
-	
-	Vector2D vec(5.0, 6.0);
-	
-	
-	while(1)
-	{
-		rotation += 1.0f;
-		Draw();
-		HandleInput();
-	}
+	GameApp app = GameApp(800, 600, false, "Wesleyan Multitouch Particles");
 	return 1;
 }
