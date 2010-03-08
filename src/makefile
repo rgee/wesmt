@@ -1,12 +1,15 @@
-oglapp: oglapp.o vector2D.o
-	g++ -o oglapp.exe oglapp.o vector2D.o -lGL -lGLU -lSDL
+oglapp: GameApp.o Vector2D.o Particle.o
+	g++ -Wall -g -o oglapp.exe GameApp.o Vector2D.o Particle.o -lGL -lGLU -lSDL
 
 
-oglapp.o: oglapp.cpp 
-	g++ -c oglapp.cpp 
+GameApp.o: GameApp.cpp GameApp.h
+	g++ -Wall -c GameApp.cpp
+
+Vector2D.o: Vector2D.cpp Vector2D.h
+	g++ -Wall -c Vector2D.cpp
 	
-vector2D.o: vector2D.cpp vector2D.h
-	g++ -c vector2D.cpp
+Particle.o: Particle.cpp Particle.h
+	g++ -Wall -c Particle.cpp
  
 clean:
 	rm -f *.o oglapp.exe
