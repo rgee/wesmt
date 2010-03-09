@@ -14,11 +14,11 @@ void GameApp::Initialize()
 	
 	if(this->is_fullscreen)
 	{
-		SDL_SetVideoMode(this->width, this->height, 0, SDL_FULLSCREEN | SDL_OPENGL);
+		SDL_SetVideoMode(this->width, this->height, 0, SDL_DOUBLEBUF, SDL_FULLSCREEN | SDL_OPENGL);
 	}
 	else
 	{
-		SDL_SetVideoMode(this->width, this->height, 0, SDL_OPENGL);
+		SDL_SetVideoMode(this->width, this->height, 0, SDL_DOUBLEBUF, SDL_OPENGL);
 	}
 	SDL_WM_SetCaption("Wesleyan Multitouch Particles", NULL);
 	
