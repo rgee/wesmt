@@ -1,11 +1,5 @@
 #include "GameplayState.h"
 
-
-void GameplayState::GameplayState() : masses(3)
-{
-
-}
-
 void GameplayState::Initialize()
 {
         this->masses[0].SetPosition(Vector2D(1.0f, 1.0f));
@@ -44,10 +38,6 @@ void GameplayState::Update()
     {
         it->Update();
     }
-}
-
-void GameplayState::HandleEvents()
-{
 }
 
 void GameplayState::Resume()

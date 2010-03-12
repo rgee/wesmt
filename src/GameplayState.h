@@ -7,11 +7,12 @@
 using namespace std;
 
 #include "Mass.h"
+#include "IGameState.h"
 
 class GameplayState : public IGameState
 {
 public:
-    virtual GameplayState();
+    GameplayState() : masses(3) { };
     virtual ~GameplayState();
 
     // IGameState interface
@@ -24,6 +25,6 @@ public:
     virtual void Render();
 private:
     vector<Mass> masses;
-}
+};
 
 #endif
