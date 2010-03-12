@@ -1,4 +1,4 @@
-#if defined (__WIN32__)    
+#ifdef WIN32
     #include <windows.h>
 #endif
 #include <GL/gl.h>
