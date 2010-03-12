@@ -1,11 +1,15 @@
 #ifdef WIN32
     #include <windows.h>
 #endif
+#include <iostream>
+#include <vector>
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include "SDL/SDL.h"
 #include "GameApp.h"
-#include "Particle.h"
+
+using namespace std;
+
 
 
 void GameApp::Initialize()
@@ -73,32 +77,15 @@ void GameApp::Draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	
-	glTranslatef(-1.5f, 1.0f, -6.0f);
+    glTranslatef(0.0, 0.0, -6.0f);
 	
 	
-	glRotatef(rotation, 0.0f, 0.0f, 1.0f);
-	
-	/*
-	glBegin(GL_POLYGON);
-		glColor3f(1.0f, 0.0f, 0.0f);
-		glVertex3f( 0.0f, 1.0f, 0.0f);
-		glColor3f(0.0f, 1.0f, 0.0f);
-		glVertex3f( 1.0f,-1.0f, 0.0f);
-		glColor3f(0.0f, 0.0f, 1.0f);
-		glVertex3f(-1.0f,-1.0f, 0.0f);
-	glEnd();
-	*/
-	
-	glBegin(GL_TRIANGLE_FAN);
-		glVertex2f(1.0f, 1.0f);
-		for(int angle = 0; angle < 360; angle++)
-		{
-			glVertex2f(1.0f + sin(double(angle)) * 0.1,
-						1.0f + cos(double(angle)) * 0.1);
-		}
-	glEnd();
-	
-	
+    for(vector<Mass>::iterator it = this->particles.begin(); it != this->particles.end(); ++it)
+    {
+        it->Draw();
+    }
+
+
 	SDL_GL_SwapBuffers();
 }
 
@@ -118,7 +105,7 @@ void GameApp::BeginMainLoop()
 }
 
 int main(int argc, char **argv)
-{
+{  
 	GameApp app = GameApp(800, 600, false, "Wesleyan Multitouch Particles");
 	return 1;
 }

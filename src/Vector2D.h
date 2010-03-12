@@ -2,9 +2,8 @@
 #ifndef VECTOR2D_H
 #define VECTOR2D_H
 #include "math.h"
+#include <iostream>
 
-
-#pragma once
 
 class Vector2D
 {
@@ -13,7 +12,9 @@ public:
 	Vector2D(float X, float Y) 
 	: x(X),
 	  y(Y)
-	{}
+    {}
+
+    Vector2D() : x(0), y(0) {};
 	
 	// Destructor
 	virtual ~Vector2D(){ };

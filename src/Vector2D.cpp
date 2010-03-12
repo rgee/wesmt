@@ -37,11 +37,11 @@ void Vector2D::Norm()
 /* Assignment operator */
 Vector2D& Vector2D::operator=(const Vector2D& rhs)
 {
-	if (&rhs == this) return *this;
-	
-	x = rhs.X();
-	y = rhs.Y();
-	
+	if (this != &rhs)
+    {
+	    x = rhs.x;
+	    y = rhs.y;
+    }
 	return *this;
 }
 
