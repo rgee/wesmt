@@ -1,6 +1,8 @@
 /* A 2D Vector Class */
+#ifndef VECTOR2D_H
+#define VECTOR2D_H
 #include "math.h"
-using namespace std;
+
 
 #pragma once
 
@@ -63,3 +65,4 @@ public:
 private:
 	float x, y;
 };
+#endif

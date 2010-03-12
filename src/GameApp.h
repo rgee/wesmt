@@ -2,6 +2,9 @@
 // i.e. Running the main loop and drawing to the screen (for now.
 // Eventually, rendering will be separated out to it's own module.)
 
+#ifndef GAMEAPP_H
+#define GAMEAPP_H
+
 #include <string>
 using namespace std;
 
@@ -44,3 +47,4 @@ private:
 	string window_title;
 	float rotation;
 };
+#endif

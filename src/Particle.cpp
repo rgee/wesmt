@@ -1,8 +1,8 @@
 #include "Particle.h"
 #include "Vector2D.h"
+#include <string>
 #include "math.h"
 
-using namespace std;
 
 float Particle::SquaredDistanceTo(const Particle &particle) const
 {

@@ -1,3 +1,5 @@
+#ifndef MASS_H
+#define MASS_H
 #include "math.h"
 #include "Particle.h"
 
@@ -10,3 +12,4 @@ private:
 		float mass;
 		float radius;
 };
+#endif

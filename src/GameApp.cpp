@@ -1,3 +1,6 @@
+#if defined (__WIN32__)    
+    #include <windows.h>
+#endif
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include "SDL/SDL.h"
@@ -90,8 +93,8 @@ void GameApp::Draw()
 		glVertex2f(1.0f, 1.0f);
 		for(int angle = 0; angle < 360; angle++)
 		{
-			glVertex2f(1.0f + sin(angle) * 0.1,
-						1.0f + cos(angle) * 0.1);
+			glVertex2f(1.0f + sin(double(angle)) * 0.1,
+						1.0f + cos(double(angle)) * 0.1);
 		}
 	glEnd();
 	

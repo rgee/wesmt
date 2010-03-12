@@ -1,3 +1,6 @@
+#ifndef PARTICLE_H
+#define PARTICLE_H
+
 #include "Vector2D.h"
 
 
@@ -26,3 +29,5 @@ private:
 	Vector2D position;
 	Vector2D velocity;
 };
+
+#endif
