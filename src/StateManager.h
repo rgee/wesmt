@@ -3,7 +3,10 @@
 #define STATEMANAGER_H
 
 #include <vector>
-#include "IGameState.h"
+
+// Forward declaration instead of an include here since
+// we only use pointers to IGameStates
+class IGameState;
 
 using namespace std;
 
