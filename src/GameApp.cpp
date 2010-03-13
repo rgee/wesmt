@@ -52,51 +52,20 @@ void GameApp::Initialize()
 	glMatrixMode(GL_MODELVIEW);
 }
 
-void GameApp::HandleInput()
-{
-	SDL_Event event;
-	
-	while(SDL_PollEvent(&event))
-	{
-		if(event.type == SDL_QUIT)
-		{
-			SDL_Quit();
-		}
-		if(event.type == SDL_KEYDOWN)
-		{
-			if(event.key.keysym.sym == SDLK_ESCAPE)
-			{
-				SDL_Quit();
-			}
-		}
-	}
-}
-
 void GameApp::Draw()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glLoadIdentity();
-	
-    glTranslatef(0.0, 0.0, -6.0f);
-	
-	
-    for(vector<Mass>::iterator it = this->particles.begin(); it != this->particles.end(); ++it)
-    {
-        it->Draw();
-    }
-
-
-	SDL_GL_SwapBuffers();
+    this->stateManager.GetCurrentState()->Render();
 }
 
 void GameApp::Update()
 {
-	rotation += 0.1f;
-	this->HandleInput();
+    this->stateManager.GetCurrentState()->Update();
 }
 
 void GameApp::BeginMainLoop()
 {
+    this->stateManager = StateManager(new GameplayState());
+
 	while(1)
 	{
 		this->Update();

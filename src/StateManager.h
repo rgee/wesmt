@@ -3,18 +3,21 @@
 #define STATEMANAGER_H
 
 #include <vector>
-
-// Forward declaration instead of an include here since
-// we only use pointers to IGameStates
-class IGameState;
+#include "IGameState.h"
 
 using namespace std;
 
 class StateManager
 {
 public:
-    StateManager();
-    virtual ~StateManager();
+    StateManager(IGameState* firstState)
+    {
+        firstState->Initialize();
+        states.push_back(firstState);
+    };
+
+    StateManager() { };
+    virtual ~StateManager() { };
 
     // Returns a pointer to the current game state
     IGameState* GetCurrentState() { return states.back();}

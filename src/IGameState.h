@@ -6,7 +6,7 @@ class IGameState
 {
 public:
     // Destructor
-    virtual ~IGameState();
+    virtual ~IGameState() { };
 
     // What happens when the state is initialized
     virtual void Initialize() = 0;
