@@ -18,7 +18,7 @@ void GameplayState::Cleanup()
 {
 }
 
-void GameplayState::HandleEvents()
+bool GameplayState::HandleEvents()
 {
     SDL_Event event;
 	
@@ -26,16 +26,17 @@ void GameplayState::HandleEvents()
 	{
 		if(event.type == SDL_QUIT)
 		{
-			SDL_Quit();
+			return false;
 		}
 		if(event.type == SDL_KEYDOWN)
 		{
 			if(event.key.keysym.sym == SDLK_ESCAPE)
 			{
-				SDL_Quit();
+				return false;
 			}
 		}
 	}
+    return true;
 }
 
 void GameplayState::Pause()
@@ -57,9 +58,9 @@ void GameplayState::Render()
     SDL_GL_SwapBuffers();
 }
 
-void GameplayState::Update()
+bool GameplayState::Update()
 {
-    this->HandleEvents();
+    if(!this->HandleEvents()) return false;
 
     for(vector<Mass>::iterator it = this->masses.begin(); it != this->masses.end(); ++it)
     {
@@ -68,6 +69,8 @@ void GameplayState::Update()
             it->ApplyGravityFrom(*itB, 1.0f);
         }
     }
+
+    return true;
 }
 
 void GameplayState::Resume()

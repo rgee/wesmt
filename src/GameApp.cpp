@@ -61,14 +61,10 @@ void GameApp::Initialize()
     glLoadIdentity();
 }
 
-void GameApp::Draw()
-{
-        this->stateManager.GetCurrentState()->Render();
-}
 
-void GameApp::Update()
+void GameApp::Quit()
 {
-    this->stateManager.GetCurrentState()->Update();
+    SDL_Quit();
 }
 
 void GameApp::BeginMainLoop()
@@ -77,9 +73,10 @@ void GameApp::BeginMainLoop()
 
 	while(1)
 	{
-		this->Update();
-		this->Draw();
+        if(!this->stateManager.GetCurrentState()->Update()) break;
+        this->stateManager.GetCurrentState()->Render();
 	}
+    this->Quit();
 }
 
 int main(int argc, char **argv)

@@ -31,6 +31,7 @@ public:
     // Move back to the previous state
     void PopState();
 
+
     // Cleanup and remove all states
     void Clear();
 private:
