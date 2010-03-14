@@ -5,10 +5,10 @@ void GameplayState::Initialize()
         this->masses[0].SetPosition(Vector2D(0.0f, 0.0f));
         this->masses[0].SetRadius(10.0f);
 
-        this->masses[1].SetPosition(Vector2D(700.0f, 500.0f));
+        this->masses[1].SetPosition(Vector2D(1.0f, 1.0f));
         this->masses[1].SetRadius(20.0f);
 
-        this->masses[2].SetPosition(Vector2D(800.0f, 600.0f));
+        this->masses[2].SetPosition(Vector2D(-1.0f, -1.0f));
         this->masses[2].SetRadius(15.0f);
 }
 
@@ -45,6 +45,7 @@ void GameplayState::Render()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	
+    glTranslatef(0.0, 0.0, -6.0f);
 
     for(vector<Mass>::iterator it = this->masses.begin(); it != this->masses.end(); ++it)
     {

@@ -11,8 +11,8 @@ void Mass::Draw()
     glPointSize(this->radius);
     glColor3f(0.5f, 1.0f, 0.5f);
     glBegin(GL_POINTS);
-        glVertex2f(this->position.X(), this->position.Y());
+        glVertex3f(this->position.X(), this->position.Y(), -6.0f);
         glRotatef(45.0f, this->position.X(), this->position.Y(), -6.0f);
-        glVertex2f(this->position.X(), this->position.Y());
+        glVertex3f(this->position.X(), this->position.Y(), -6.0f);
     glEnd();
 }
