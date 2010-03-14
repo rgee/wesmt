@@ -3,6 +3,7 @@
 #ifndef GAMEPLAYSTATE_H
 #define GAMEPLAYSTATE_H
 
+
 #include <vector>
 using namespace std;
 
@@ -13,8 +14,14 @@ using namespace std;
     #include <windows.h>
 #endif
 
-#include <GL/gl.h>
-#include <GL/glu.h>
+#ifdef __APPLE__
+    #include <OpenGL/gl.h>
+    #include <OpenGL/glu.h>
+#else
+    #include <GL/gl.h>
+    #include <GL/glu.h>
+#endif
+
 #include "SDL/SDL.h"
 
 class GameplayState : public IGameState
@@ -31,6 +38,7 @@ public:
     virtual void HandleEvents();
     virtual void Update();
     virtual void Render();
+
 private:
     vector<Mass> masses;
 };
