@@ -1,6 +1,5 @@
 oglapp: GameApp.o Vector2D.o Particle.o
-	g++ -Wall -g -o oglapp.exe GameApp.o Vector2D.o Particle.o -lGL -lGLU -lSDL
-
+	g++ -Wall -g -o oglapp.exe GameApp.o Vector2D.o Particle.o `sdl-config --static-libs --libs`
 
 GameApp.o: GameApp.cpp GameApp.h
 	g++ -Wall -c GameApp.cpp

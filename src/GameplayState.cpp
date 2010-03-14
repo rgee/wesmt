@@ -2,14 +2,14 @@
 
 void GameplayState::Initialize()
 {
-        this->masses[0].SetPosition(Vector2D(1.0f, 1.0f));
-        this->masses[0].SetRadius(10.0f);
+    this->masses[0].SetPosition(Vector2D(1.0f, 1.0f));
+    this->masses[0].SetRadius(10.0f);
 
-        this->masses[1].SetPosition(Vector2D(0.5f, 0.5f));
-        this->masses[1].SetRadius(20.0f);
+    this->masses[1].SetPosition(Vector2D(0.5f, 0.5f));
+    this->masses[1].SetRadius(20.0f);
 
-        this->masses[2].SetPosition(Vector2D(1.0f, -1.0f));
-        this->masses[2].SetRadius(15.0f);
+    this->masses[2].SetPosition(Vector2D(1.0f, -1.0f));
+    this->masses[2].SetRadius(15.0f);
 }
 
 void GameplayState::Cleanup()
