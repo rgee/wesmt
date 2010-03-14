@@ -4,12 +4,15 @@ void GameplayState::Initialize()
 {
     this->masses[0].SetPosition(Vector2D(0.0f, 0.0f));
     this->masses[0].SetRadius(10.0f);
+    this->masses[0].SetMass(100);
 
     this->masses[1].SetPosition(Vector2D(1.0f, 1.0f));
     this->masses[1].SetRadius(20.0f);
-
+    this->masses[1].SetMass(100);
+    
     this->masses[2].SetPosition(Vector2D(-1.0f, -1.0f));
     this->masses[2].SetRadius(15.0f);
+    this->masses[2].SetMass(100);
     
     
 }
@@ -66,7 +69,8 @@ bool GameplayState::Update()
     {
         it->Update();
         for(vector<Mass>::iterator itB = this->masses.begin(); itB != this->masses.end(); ++itB){
-            it->ApplyGravityFrom(*itB, 1.0f);
+            if(&it != &itB)
+                it->ApplyGravityFrom(*itB, 1.0f);
         }
     }
 

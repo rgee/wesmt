@@ -16,7 +16,7 @@ float Particle::DistanceTo(const Particle &particle) const
 
 void Particle::Update(float delta)
 {
-	this->position + (this->velocity * delta);
+	this->position = this->position + (this->velocity * delta);
 }
 
 

@@ -25,11 +25,13 @@ void Mass::Draw()
     glEnd();
 }
 
-void Mass::ApplyGravityFrom(const Particle body, float timestep)
+void Mass::ApplyGravityFrom(const Mass body, float timestep)
 {
-    float dx = this->position.X(), dy = this->position.Y(), d = DistanceTo(body);
+    float dx = this->position.X() - body.GetPosition().X(),
+          dy = this->position.Y() - body.GetPosition().Y(),
+          d  = DistanceTo(body);
     
-    if(d < 20) 20.0f;
+    if(d < 20) d = 20.0f;
     
     /* Accel due to gravity = GM / d^2 = d / t^2
     We want change in velocity, which is d/t
@@ -40,8 +42,7 @@ void Mass::ApplyGravityFrom(const Particle body, float timestep)
        delta xv = GMt * dx / d^3
        delta yv = GMt * dy / d^3
     Calculate once GMt / d^3: */
-    float hertz = this->mass * timestep * -0.15 / (d*d*d);
-    printf("%f", hertz);
+    float hertz = body.GetMass() * timestep * -0.0015 / (d*d*d);
     
     this->velocity = this->velocity + Vector2D(hertz*dx, hertz*dy);
 }

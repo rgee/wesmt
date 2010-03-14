@@ -33,7 +33,7 @@ public:
 
     // Applies gravitational force from another gravitational
     // body.
-    void ApplyGravityFrom(const Particle body, float timestep);
+    void ApplyGravityFrom(const Mass body, float timestep);
 
     // Draws this mass to the screen
     void Draw();
