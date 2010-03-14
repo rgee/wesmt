@@ -21,10 +21,10 @@ public:
     virtual void Resume() = 0;
 
     // What happens in response to events
-    virtual void HandleEvents() = 0;
+    virtual bool HandleEvents() = 0;
 
     // Called once per frame. Update game logic.
-    virtual void Update() = 0;
+    virtual bool Update() = 0;
 
     // Called once per frame. Draw to the screen.
     virtual void Render() = 0;

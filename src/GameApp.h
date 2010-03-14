@@ -34,11 +34,8 @@ private:
 	// Initializes the game application
 	void Initialize();
 
-	// Draws the current frame to the screen
-	void Draw();
-	
-	// Updates the game state
-	void Update();
+    // Exit the application
+    void Quit();
 
     StateManager stateManager;
 

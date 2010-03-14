@@ -35,8 +35,8 @@ public:
     virtual void Cleanup();
     virtual void Pause();
     virtual void Resume();
-    virtual void HandleEvents();
-    virtual void Update();
+    virtual bool HandleEvents();
+    virtual bool Update();
     virtual void Render();
 
 private:
