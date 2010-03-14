@@ -46,15 +46,18 @@ void GameApp::Initialize()
 	// Reset the projection matrix
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
+
+    glOrtho(0, this->width, this->height, 0, -1, 1);
 	
-	gluPerspective(45.0f, ((GLfloat)width / (GLfloat)height), 0.1f, 1000.0f);
+	//gluPerspective(45.0f, ((GLfloat)width / (GLfloat)height), 0.1f, 1000.0f);
 	
 	glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 }
 
 void GameApp::Draw()
 {
-    this->stateManager.GetCurrentState()->Render();
+        this->stateManager.GetCurrentState()->Render();
 }
 
 void GameApp::Update()
