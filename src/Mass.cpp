@@ -18,10 +18,11 @@ void Mass::Draw()
 {
     glPointSize(this->radius);
     glColor3f(0.5f, 1.0f, 0.5f);
-    glBegin(GL_POINTS);
-        glVertex3f(this->position.X(), this->position.Y(), -6.0f);
-        glRotatef(45.0f, this->position.X(), this->position.Y(), -6.0f);
-        glVertex3f(this->position.X(), this->position.Y(), -6.0f);
+    glBegin(GL_QUADS);
+        glVertex3f(-0.1f + this->GetPosition().X(), 0.1f + this->GetPosition().Y(), 0.0f);			// Left And Up 1 Unit (Top Left)
+		glVertex3f( 0.1f + this->GetPosition().X(), 0.1f + this->GetPosition().Y(), 0.0f);			// Right And Up 1 Unit (Top Right)
+		glVertex3f( 0.1f + this->GetPosition().X(),-0.1f + this->GetPosition().Y(), 0.0f);			// Right And Down One Unit (Bottom Right)
+		glVertex3f(-0.1f + this->GetPosition().X(),-0.1f + this->GetPosition().Y(), 0.0f);	
     glEnd();
 }
 

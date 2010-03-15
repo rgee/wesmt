@@ -20,10 +20,12 @@ public:
     // What happens after a pause
     virtual void Resume() = 0;
 
-    // What happens in response to events
+    // What happens in response to events.
+    // Returns false if the game should exit.
     virtual bool HandleEvents() = 0;
 
     // Called once per frame. Update game logic.
+    // Returns false if the game should exit.
     virtual bool Update() = 0;
 
     // Called once per frame. Draw to the screen.

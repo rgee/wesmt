@@ -5,6 +5,8 @@
 
 
 #include <vector>
+#include <algorithm>
+#include <numeric>
 using namespace std;
 
 #include "Mass.h"
@@ -24,10 +26,13 @@ using namespace std;
 
 #include "SDL/SDL.h"
 
+// Max particles to be displayed on screen.
+const int kMaxMasses = 100;
+
 class GameplayState : public IGameState
 {
 public:
-    GameplayState() : masses(3) { };
+    GameplayState() : masses(100), numMasses(0), zoomFactor(1.0f), totalMass(0.0f) { };
     virtual ~GameplayState() {};
 
     // IGameState interface
@@ -39,8 +44,29 @@ public:
     virtual bool Update();
     virtual void Render();
 
+
 private:
+    // Add a new mass to the system.
+    void AddMass(Vector2D position, float mass, float radius);
+
+    // Translate window coordinates to openGL coordinates
+    Vector2D GetOGLCoordinates(float x, float y);
+
+    // Updates the perspective to respond to a zoom in or out
+    void SetPerspective();
+
+    // Masses
     vector<Mass> masses;
+
+
+    // Current number of masses
+    int numMasses;
+
+    // Zoom factor for the perspective view
+    float zoomFactor;
+    
+    // The sum of the mass values of all masses on screen
+    float totalMass;
 };
 
 #endif
