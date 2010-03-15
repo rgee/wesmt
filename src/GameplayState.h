@@ -58,6 +58,7 @@ private:
     // Masses
     vector<Mass> masses;
 
+
     // Current number of masses
     int numMasses;
 

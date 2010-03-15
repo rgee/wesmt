@@ -39,6 +39,17 @@ void GameplayState::SetPerspective()
     glMatrixMode(GL_MODELVIEW);
 }
 
+
+// This might be very messy without a 3d vector class. We need to write one, but I 
+// recommend keeping it separate from the 3d vector class because 99% of the time
+// we know the z component of what we're using and it's always the same value. There's
+// no reason to use a 3-dimensional vector there and store an extra float value that may
+// never be used and may never change.
+// 
+// However, here a 3d vector would be useful because we actually are dealing with depth to
+// intersect with the plane on the Y axis...
+//
+// CURRENT FUNCTION STATUS: BROKEN
 Vector2D GameplayState::GetOGLCoordinates(float x, float y)
 {
     GLint viewport[4];
@@ -46,7 +57,7 @@ Vector2D GameplayState::GetOGLCoordinates(float x, float y)
     GLdouble projection[16];
     GLfloat winX, winY;
     GLfloat newDepth;
-    GLdouble posX, posY, posZ;
+    GLdouble x1, y1, z1, x2, y2, z2;
 
     glGetDoublev(GL_MODELVIEW_MATRIX, modelView);
     glGetDoublev(GL_PROJECTION_MATRIX, projection);
@@ -56,11 +67,21 @@ Vector2D GameplayState::GetOGLCoordinates(float x, float y)
     winY = (float)viewport[3] - y;
 
 
-    glReadPixels(winX, winY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &newDepth);
+    //glReadPixels(winX, winY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &newDepth);
 
-    gluUnProject(winX, y,  (double)newDepth, modelView, projection, viewport, &posX, &posY, &posZ);
 
-    return Vector2D(posX, posY);
+    // We unProject twice with z = 1 and z = 0 then intersect the line segment created by these
+    // two points with the Y-plane. The point of intersection is our position.
+
+    // Near plane
+    gluUnProject(winX, winY,  0, modelView, projection, viewport, &x1, &y1, &z1);
+
+    // Far plane
+    gluUnProject(winX, winY,  1, modelView, projection, viewport, &x2, &y2, &z2);
+
+
+
+    return Vector2D((x2 - x1) * (z2 / z1) , (y2 - y1) * (z2/z1));
 }
 
 bool GameplayState::HandleEvents()
