@@ -24,10 +24,13 @@ using namespace std;
 
 #include "SDL/SDL.h"
 
+// Max particles to be displayed on screen.
+const int kMaxMasses = 100;
+
 class GameplayState : public IGameState
 {
 public:
-    GameplayState() : masses(3) { };
+    GameplayState() : masses(100), numMasses(0) { };
     virtual ~GameplayState() {};
 
     // IGameState interface
@@ -39,8 +42,12 @@ public:
     virtual bool Update();
     virtual void Render();
 
+
 private:
+    // Translate window coordinates to openGL coordinates
+    Vector2D GetOGLCoordinates(float x, float y);
     vector<Mass> masses;
+    int numMasses;
 };
 
 #endif

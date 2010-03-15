@@ -10,6 +10,7 @@ void StateManager::PopState()
     }
 }
 
+
 void StateManager::PushState(IGameState *state)
 {
     if(!states.empty())

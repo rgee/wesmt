@@ -37,7 +37,7 @@ void GameApp::Initialize()
 	
 	puts("Initializing OpenGL");
 	
-	glViewport(0, 0, this->width, this->height);
+    glViewport(0, 0, this->width, this->height);
 	
 	// Clear the screen to black for each draw call
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f); 
