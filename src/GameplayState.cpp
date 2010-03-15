@@ -69,30 +69,14 @@ bool GameplayState::HandleEvents()
 	
 	while(SDL_PollEvent(&event))
 	{
-		if(event.type == SDL_QUIT)
-		{
-			return false;
-		}
-		if(event.type == SDL_KEYDOWN)
-		{
-			if(event.key.keysym.sym == SDLK_ESCAPE)
-			{
-				return false;
-			}
-            if(event.key.keysym.sym == SDLK_UP)
-            {
-                if((this->zoomFactor + 0.1f) >= 1.0f)
-                {
-                    this->zoomFactor = 1.0f;
-                }
-                else
-                {
-                    this->zoomFactor += 0.1f;
-                }
-                this->SetPerspective();
-            }
-            if(event.key.keysym.sym == SDLK_DOWN)
-            {
+        switch(event.type)
+        {
+        case SDL_QUIT:
+            return false;
+        case SDL_KEYDOWN:
+            switch(event.key.keysym.sym)
+            {               
+            case SDLK_DOWN:
                 if((this->zoomFactor - 0.1f) <= 0)
                 {
                     this->zoomFactor = 0;
@@ -102,14 +86,26 @@ bool GameplayState::HandleEvents()
                     this->zoomFactor -= 0.1f;
                 }
                 this->SetPerspective();
+                break;
+            case SDLK_UP:
+                if((this->zoomFactor + 0.1f) >= 1.0f)
+                {
+                    this->zoomFactor = 1.0f;
+                }
+                else
+                {
+                    this->zoomFactor += 0.1f;
+                }
+                this->SetPerspective();
+                break;
+            case SDLK_ESCAPE: 
+                return false;
+
             }
-		}
-        if(event.type == SDL_MOUSEBUTTONDOWN)
-        {
-            OutputDebugString(L"Adding a new mass\n");
+        case SDL_MOUSEBUTTONDOWN:
             this->AddMass(this->GetOGLCoordinates((float)event.button.x, (float)event.button.y), 1000.0f, 10.0f);
         }
-	}
+    }
     return true;
 }
 
