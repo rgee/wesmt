@@ -5,25 +5,38 @@ using namespace std;
 
 void GameplayState::Initialize()
 {
-    this->masses[0].SetPosition(Vector2D(0.0f, 0.0f));
-    this->masses[0].SetRadius(10.0f);
-    this->masses[0].SetMass(100.0f);
-    this->numMasses++;
+    this->AddMass(Vector2D(0.0f, 0.0f), 100.0f, 10.0f);
+    this->AddMass(Vector2D(1.0f, 1.0f), 100.0f, 20.0f);
+    this->AddMass(Vector2D(-1.0f, -1.0f), 100.0f, 15.0f);
+    
+}
 
-    this->masses[1].SetPosition(Vector2D(1.0f, 1.0f));
-    this->masses[1].SetRadius(20.0f);
-    this->masses[1].SetMass(100.0f);
+void GameplayState::AddMass(Vector2D position, float mass, float radius)
+{
+    if(this->numMasses >= kMaxMasses) return;
+
     this->numMasses++;
-    
-    this->masses[2].SetPosition(Vector2D(-1.0f, -1.0f));
-    this->masses[2].SetRadius(15.0f);
-    this->masses[2].SetMass(100.0f);
-    this->numMasses++;
-    
+    this->masses[numMasses].SetPosition(position);
+    this->masses[numMasses].SetRadius(radius);
+    this->masses[numMasses].SetMass(mass);
+    this->totalMass += mass;
 }
 
 void GameplayState::Cleanup()
 {
+}
+
+void GameplayState::SetPerspective()
+{
+    GLint viewport[4];
+    glGetIntegerv(GL_VIEWPORT, viewport);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+
+    gluPerspective(45.0f / this->zoomFactor, (float)viewport[2] / (float)viewport[3], 0.1, 1000.0f);
+
+    glMatrixMode(GL_MODELVIEW);
 }
 
 Vector2D GameplayState::GetOGLCoordinates(float x, float y)
@@ -66,17 +79,35 @@ bool GameplayState::HandleEvents()
 			{
 				return false;
 			}
+            if(event.key.keysym.sym == SDLK_UP)
+            {
+                if((this->zoomFactor + 0.1f) >= 1.0f)
+                {
+                    this->zoomFactor = 1.0f;
+                }
+                else
+                {
+                    this->zoomFactor += 0.1f;
+                }
+                this->SetPerspective();
+            }
+            if(event.key.keysym.sym == SDLK_DOWN)
+            {
+                if((this->zoomFactor - 0.1f) <= 0)
+                {
+                    this->zoomFactor = 0;
+                }
+                else
+                {
+                    this->zoomFactor -= 0.1f;
+                }
+                this->SetPerspective();
+            }
 		}
         if(event.type == SDL_MOUSEBUTTONDOWN)
         {
-            if(this->numMasses < kMaxMasses)
-            {
-                OutputDebugString(L"Adding a new mass\n");
-                this->masses[this->numMasses + 1].SetPosition(this->GetOGLCoordinates((float)event.button.x, (float)event.button.y));
-                this->masses[this->numMasses + 1].SetRadius(10.0f);
-                this->masses[this->numMasses + 1].SetMass(1000.0f);
-                this->numMasses += 1;
-            }
+            OutputDebugString(L"Adding a new mass\n");
+            this->AddMass(this->GetOGLCoordinates((float)event.button.x, (float)event.button.y), 1000.0f, 10.0f);
         }
 	}
     return true;
