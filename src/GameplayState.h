@@ -52,8 +52,6 @@ private:
     // Translate window coordinates to openGL coordinates
     Vector2D GetOGLCoordinates(float x, float y);
 
-    // Updates the perspective to respond to a zoom in or out
-    void SetPerspective();
 
     // Masses
     vector<Mass> masses;

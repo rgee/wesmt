@@ -53,9 +53,9 @@ void GameApp::Initialize()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-    //glOrtho(0, this->width, this->height, 0, -1, 1);
+    glOrtho(0, this->width, this->height, 0, -1, 1);
 	
-	gluPerspective(45.0f, ((GLfloat)width / (GLfloat)height), 0.1f, 1000.0f);
+	//gluPerspective(45.0f, ((GLfloat)width / (GLfloat)height), 0.1f, 1000.0f);
 	
 	glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();

@@ -4,6 +4,7 @@
 #include "math.h"
 
 
+
 float Particle::SquaredDistanceTo(const Particle &particle) const
 {
 	return Vector2D::SquaredDistance(this->position, particle.position);
