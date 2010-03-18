@@ -5,8 +5,6 @@
 
 
 #include <vector>
-#include <algorithm>
-#include <numeric>
 using namespace std;
 
 #include "Mass.h"
@@ -27,12 +25,12 @@ using namespace std;
 #include "SDL/SDL.h"
 
 // Max particles to be displayed on screen.
-const int kMaxMasses = 100;
+const int kMaxMasses = 300;
 
 class GameplayState : public IGameState
 {
 public:
-    GameplayState() : masses(100), numMasses(0), zoomFactor(1.0f), totalMass(0.0f) { };
+    GameplayState() : masses(500), numMasses(0), zoomFactor(1.0f), totalMass(0.0f) { };
     virtual ~GameplayState() {};
 
     // IGameState interface
@@ -65,6 +63,8 @@ private:
     
     // The sum of the mass values of all masses on screen
     float totalMass;
+
+    bool mouseDown;
 };
 
 #endif

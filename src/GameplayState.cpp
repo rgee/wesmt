@@ -8,7 +8,6 @@ void GameplayState::Initialize()
     this->AddMass(Vector2D(300.0f, 400.0f), 1000.0f, 20.0f);
     this->AddMass(Vector2D(400.0f, 300.0f), 10000.0f, 20.0f);
     this->AddMass(Vector2D(500.0f, 200.0f), 1000.0f, 10.0f);
-    
 }
 
 void GameplayState::AddMass(Vector2D position, float mass, float radius)
@@ -19,6 +18,7 @@ void GameplayState::AddMass(Vector2D position, float mass, float radius)
     this->masses[numMasses].SetPosition(position);
     this->masses[numMasses].SetRadius(radius);
     this->masses[numMasses].SetMass(mass);
+    this->masses[numMasses].SetExists(true);
     this->totalMass += mass;
 }
 
@@ -126,6 +126,7 @@ void GameplayState::Render()
     glScalef(this->zoomFactor, this->zoomFactor, this->zoomFactor);
     for(vector<Mass>::iterator it = this->masses.begin(); it != this->masses.end(); ++it)
     {
+        if(!it->GetExists()) continue;
         it->Draw();
     }
 
@@ -134,15 +135,20 @@ void GameplayState::Render()
 
 bool GameplayState::Update()
 {
+    //SDL_PumpEvents();
     if(!this->HandleEvents()) return false;
 
     for(vector<Mass>::iterator it = this->masses.begin(); it != this->masses.end(); ++it)
     {
+        if(!it->GetExists()) continue;
         it->Update();
+        
+        
         for(vector<Mass>::iterator itB = this->masses.begin(); itB != this->masses.end(); ++itB){
             if(&it != &itB)
                 it->ApplyGravityFrom(*itB, 1.0f);
         }
+        
     }
 
     return true;
