@@ -29,13 +29,13 @@ public:
 	inline float Y() const {return y;}
 	
 	// Multiplies this vector by a scalar (float)
-	inline Vector2D operator*(float scalar) const { return Vector2D(this->x * scalar, this->y * scalar); }
+	inline const Vector2D operator*(float scalar) const { return Vector2D(this->x * scalar, this->y * scalar); }
 	
 	// Adds this vector to another 2D vector
-	inline Vector2D operator+(const Vector2D &vec) const { return Vector2D(this->x + vec.X(), this->y + vec.Y()); }
+	inline const Vector2D operator+(const Vector2D &vec) const { return Vector2D(this->x + vec.X(), this->y + vec.Y()); }
 	
 	// Subtracts a 2D vector from this 2D vector
-	inline Vector2D operator-(const Vector2D &vec) const { return Vector2D(this->x - vec.Y(), this->y - vec.Y()); }
+	inline const Vector2D operator-(const Vector2D &vec) const { return Vector2D(this->x - vec.Y(), this->y - vec.Y()); }
 	
 	// Assigns another vector to this 2D vector
 	Vector2D& operator=(const Vector2D &rhs);

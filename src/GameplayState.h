@@ -25,12 +25,12 @@ using namespace std;
 #include "SDL/SDL.h"
 
 // Max particles to be displayed on screen.
-const int kMaxMasses = 100;
+const int kMaxMasses = 10000;
 
 class GameplayState : public IGameState
 {
 public:
-    GameplayState() : masses(500), numMasses(0), zoomFactor(1.0f), totalMass(0.0f) { };
+    GameplayState() : masses(10000), numMasses(0), zoomFactor(1.0f), totalMass(0.0f) { };
     virtual ~GameplayState() {};
 
     // IGameState interface
