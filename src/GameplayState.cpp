@@ -5,9 +5,9 @@ using namespace std;
 
 void GameplayState::Initialize()
 {
-    this->AddMass(Vector2D(300.0f, 400.0f), 1000.0f, 20.0f);
-    this->AddMass(Vector2D(400.0f, 300.0f), 10000.0f, 20.0f);
-    this->AddMass(Vector2D(500.0f, 200.0f), 1000.0f, 10.0f);
+    this->AddMass(Vector2D(300.0f, 400.0f), 500.0f, 20.0f);
+    this->AddMass(Vector2D(400.0f, 300.0f), 5000.0f, 20.0f);
+    this->AddMass(Vector2D(500.0f, 200.0f), 500.0f, 10.0f);
 }
 
 void GameplayState::AddMass(Vector2D position, float mass, float radius)
@@ -84,7 +84,7 @@ bool GameplayState::HandleEvents()
         case SDL_QUIT:
             return false;
         case SDL_MOUSEBUTTONDOWN:
-            this->AddMass(Vector2D((float)event.button.x, (float)event.button.y), 1000.0f, 10.0f);
+            this->AddMass(Vector2D((float)event.button.x, (float)event.button.y), 50.0f, 2.0f);
             break;
         case SDL_KEYDOWN:
             switch(event.key.keysym.sym)       
@@ -124,6 +124,8 @@ void GameplayState::Render()
 	
     //glTranslatef(0.0, 0.0, -6.0f);
     glScalef(this->zoomFactor, this->zoomFactor, this->zoomFactor);
+    
+
     for(vector<Mass>::iterator it = this->masses.begin(); it != this->masses.end(); ++it)
     {
         if(!it->GetExists()) continue;
@@ -145,7 +147,7 @@ bool GameplayState::Update()
         
         
         for(vector<Mass>::iterator itB = this->masses.begin(); itB != this->masses.end(); ++itB){
-            if(&it != &itB)
+            if(&it != &itB) 
                 it->ApplyGravityFrom(*itB, 1.0f);
         }
         

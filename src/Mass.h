@@ -33,8 +33,8 @@ public:
     // Destructor
     virtual ~Mass(){};
 
-    void SetExists(bool newExists) { exists = newExists;}
-    bool GetExists() { return exists;}
+    inline void SetExists(bool newExists) { exists = newExists;}
+    inline bool GetExists() { return exists;}
 
     // Applies gravitational force from another gravitational
     // body.
@@ -50,7 +50,7 @@ public:
     void SetRadius(float newRadius) {radius = newRadius;}
 
     // Gets the mass
-    float GetMass() const { return mass;}
+    inline float GetMass() const { return mass;}
 
     // Gets the radius
     float GetRadius() const { return radius;}

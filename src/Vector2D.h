@@ -23,19 +23,19 @@ public:
 	float GetMagnitude() const;
 	
 	// Gets the X component of this 2D vector
-	float X() const {return x;}
+	inline float X() const {return x;}
 	
 	// Gets the Y component of this 2D vector
-	float Y() const {return y;}
+	inline float Y() const {return y;}
 	
 	// Multiplies this vector by a scalar (float)
-	Vector2D operator*(float scalar) const { return Vector2D(this->x * scalar, this->y * scalar); }
+	inline Vector2D operator*(float scalar) const { return Vector2D(this->x * scalar, this->y * scalar); }
 	
 	// Adds this vector to another 2D vector
-	Vector2D operator+(const Vector2D &vec) const { return Vector2D(this->x + vec.X(), this->y + vec.Y()); }
+	inline Vector2D operator+(const Vector2D &vec) const { return Vector2D(this->x + vec.X(), this->y + vec.Y()); }
 	
 	// Subtracts a 2D vector from this 2D vector
-	Vector2D operator-(const Vector2D &vec) const { return Vector2D(this->x - vec.Y(), this->y - vec.Y()); }
+	inline Vector2D operator-(const Vector2D &vec) const { return Vector2D(this->x - vec.Y(), this->y - vec.Y()); }
 	
 	// Assigns another vector to this 2D vector
 	Vector2D& operator=(const Vector2D &rhs);
@@ -51,7 +51,7 @@ public:
 	float Dot(const Vector2D &vec) const;
 	
 	// Computes the squared distance of two vectors
-	static float SquaredDistance(const Vector2D &vec1, const Vector2D &vec2)
+	inline static float SquaredDistance(const Vector2D &vec1, const Vector2D &vec2)
 	{
         float x1 = vec1.X(), x2 = vec2.X(), y1 = vec1.Y(), y2 = vec2.Y();
 
