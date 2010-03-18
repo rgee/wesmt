@@ -24,7 +24,7 @@ public:
 
     // Default constructor
     Mass() : 
-      Particle(Vector2D(0.0f,0.0f),Vector2D(0.01f,0.01f)),
+      Particle(Vector2D(0.0f,0.0f),Vector2D(0.0f,0.0f)),
       mass(0.0f),
       radius(1.0f),
       exists(false)

@@ -11,6 +11,7 @@
 #endif
 
 #include <iostream>
+#include <sstream>
 #include <vector>
 #include "SDL/SDL.h"
 #include "GameApp.h"
@@ -71,10 +72,31 @@ void GameApp::BeginMainLoop()
 {
     this->stateManager = StateManager(new GameplayState());
 
+    int frames = 0, update;
+    float fps;
+    update = SDL_GetTicks();
+
 	while(1)
 	{
+        
         if(!this->stateManager.GetCurrentState()->Update()) break;
         this->stateManager.GetCurrentState()->Render();
+
+        if((SDL_GetTicks() - update) > 1000 )
+        {
+            /*
+            stringstream caption;
+            fps = frames / (SDL_GetTicks() - update) * 1000;
+
+            caption << fps;
+            SDL_WM_SetCaption(caption.str().c_str(), NULL);
+            */
+
+            update = SDL_GetTicks();
+            frames = 0;
+        }
+        frames++;
+        SDL_Delay(10);
 	}
     this->Quit();
 }

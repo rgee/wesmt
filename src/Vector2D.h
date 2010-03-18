@@ -53,8 +53,13 @@ public:
 	// Computes the squared distance of two vectors
 	static float SquaredDistance(const Vector2D &vec1, const Vector2D &vec2)
 	{
-		return pow((vec1.X() - vec2.X()), 2) +
-			pow((vec1.Y() - vec2.Y()), 2);
+        float x1 = vec1.X(), x2 = vec2.X(), y1 = vec1.Y(), y2 = vec2.Y();
+
+        return((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+        /*
+		return ( (vec1.X() - vec2.X()) * (vec1.X() - vec2.X()) ) +
+			((vec1.Y() - vec2.Y()) * (vec1.Y() - vec2.Y()));
+        */
 	}
 	
 	// Computes the distance of two vectors
