@@ -5,20 +5,25 @@ using namespace std;
 
 void GameplayState::Initialize()
 {
-    this->AddMass(Vector2D(0.0f, 0.0f), 100.0f, 10.0f);
-    this->AddMass(Vector2D(1.0f, 1.0f), 100.0f, 20.0f);
-    this->AddMass(Vector2D(-1.0f, -1.0f), 100.0f, 15.0f);
-    
+    this->AddMass(Vector2D(300.0f, 400.0f), 500.0f, 20.0f);
+    this->AddMass(Vector2D(400.0f, 300.0f), 5000.0f, 20.0f);
+    this->AddMass(Vector2D(500.0f, 200.0f), 500.0f, 10.0f);
+
+    for (int i = 0; i < 90; i++)
+    {
+        this->AddMass(Vector2D(250.0f, 250.0f), 10500.0f, 5.0f);
+    }
 }
 
 void GameplayState::AddMass(Vector2D position, float mass, float radius)
 {
-    if(this->numMasses >= kMaxMasses) return;
+    if(this->numMasses == kMaxMasses) return;
 
     this->numMasses++;
     this->masses[numMasses].SetPosition(position);
     this->masses[numMasses].SetRadius(radius);
     this->masses[numMasses].SetMass(mass);
+    this->masses[numMasses].SetExists(true);
     this->totalMass += mass;
 }
 
@@ -26,18 +31,7 @@ void GameplayState::Cleanup()
 {
 }
 
-void GameplayState::SetPerspective()
-{
-    GLint viewport[4];
-    glGetIntegerv(GL_VIEWPORT, viewport);
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-
-    gluPerspective(45.0f / this->zoomFactor, (float)viewport[2] / (float)viewport[3], 0.1, 1000.0f);
-
-    glMatrixMode(GL_MODELVIEW);
-}
 
 
 // This might be very messy without a 3d vector class. We need to write one, but I 
@@ -94,37 +88,29 @@ bool GameplayState::HandleEvents()
         {
         case SDL_QUIT:
             return false;
-        case SDL_KEYDOWN:
-            switch(event.key.keysym.sym)
-            {               
-            case SDLK_DOWN:
-                if((this->zoomFactor - 0.1f) <= 0)
-                {
-                    this->zoomFactor = 0;
-                }
-                else
-                {
-                    this->zoomFactor -= 0.1f;
-                }
-                this->SetPerspective();
-                break;
-            case SDLK_UP:
-                if((this->zoomFactor + 0.1f) >= 1.0f)
-                {
-                    this->zoomFactor = 1.0f;
-                }
-                else
-                {
-                    this->zoomFactor += 0.1f;
-                }
-                this->SetPerspective();
-                break;
-            case SDLK_ESCAPE: 
-                return false;
-
-            }
         case SDL_MOUSEBUTTONDOWN:
-            this->AddMass(this->GetOGLCoordinates((float)event.button.x, (float)event.button.y), 1000.0f, 10.0f);
+            this->AddMass(Vector2D((float)event.button.x, (float)event.button.y), 5.0f, 2.0f);
+            break;
+        case SDL_KEYDOWN:
+            switch(event.key.keysym.sym)       
+            {
+                case SDLK_DOWN:
+                    if((this->zoomFactor - 0.1f) <= 0)
+                    {
+                        this->zoomFactor = 0;
+                    }
+                    else
+                    {
+                        this->zoomFactor -= 0.1f;
+                    }
+                    break;
+                case SDLK_UP:
+                        this->zoomFactor += 0.1f;
+                    break;
+                case SDLK_ESCAPE: 
+                    return false;
+                    break;
+            }
         }
     }
     return true;
@@ -141,10 +127,13 @@ void GameplayState::Render()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	
-    glTranslatef(0.0, 0.0, -6.0f);
+    //glTranslatef(0.0, 0.0, -6.0f);
+    glScalef(this->zoomFactor, this->zoomFactor, this->zoomFactor);
+    
 
     for(vector<Mass>::iterator it = this->masses.begin(); it != this->masses.end(); ++it)
     {
+        if(!it->GetExists()) continue;
         it->Draw();
     }
 
@@ -153,15 +142,20 @@ void GameplayState::Render()
 
 bool GameplayState::Update()
 {
+    //SDL_PumpEvents();
     if(!this->HandleEvents()) return false;
 
     for(vector<Mass>::iterator it = this->masses.begin(); it != this->masses.end(); ++it)
     {
+        if(!it->GetExists()) continue;
         it->Update();
+        
+        
         for(vector<Mass>::iterator itB = this->masses.begin(); itB != this->masses.end(); ++itB){
-            if(&it != &itB)
+            if(&it != &itB) 
                 it->ApplyGravityFrom(*itB, 1.0f);
         }
+        
     }
 
     return true;

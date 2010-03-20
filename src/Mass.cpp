@@ -18,15 +18,21 @@ void Mass::Draw()
 {
     glPointSize(this->radius);
     glColor3f(0.5f, 1.0f, 0.5f);
+    
+
     glBegin(GL_QUADS);
-        glVertex3f(-0.1f + this->GetPosition().X(), 0.1f + this->GetPosition().Y(), 0.0f);			// Left And Up 1 Unit (Top Left)
-		glVertex3f( 0.1f + this->GetPosition().X(), 0.1f + this->GetPosition().Y(), 0.0f);			// Right And Up 1 Unit (Top Right)
-		glVertex3f( 0.1f + this->GetPosition().X(),-0.1f + this->GetPosition().Y(), 0.0f);			// Right And Down One Unit (Bottom Right)
-		glVertex3f(-0.1f + this->GetPosition().X(),-0.1f + this->GetPosition().Y(), 0.0f);	
+        glVertex3f( this->GetPosition().X() - this->radius, this->GetPosition().Y() - this->radius, 0.0f);			// Top Left
+		glVertex3f( this->GetPosition().X() - this->radius, this->GetPosition().Y() + this->radius, 0.0f);			// Top Right
+        glVertex3f( this->GetPosition().X() + this->radius, this->GetPosition().Y() + this->radius, 0.0f);			// Bottom Right
+        glVertex3f( this->GetPosition().X() + this->radius, this->GetPosition().Y() - this->radius, 0.0f);	        // Bottom left
     glEnd();
+
+    //glBegin(GL_POINTS);
+    //    glVertex3f(this->GetPosition().X(), this->GetPosition().Y(), 0);
+    //glEnd();
 }
 
-void Mass::ApplyGravityFrom(const Mass body, float timestep)
+void Mass::ApplyGravityFrom(const Mass& body, float timestep)
 {
     float dx = this->position.X() - body.GetPosition().X(),
           dy = this->position.Y() - body.GetPosition().Y(),
@@ -47,6 +53,7 @@ void Mass::ApplyGravityFrom(const Mass body, float timestep)
        delta yv = GMt * dy / d^3
     Calculate once GMt / d^3 (d has been pre-cubed): */
     float hertz = body.GetMass() * timestep * -0.0015 / d;
-    
-    this->velocity = this->velocity + Vector2D(hertz*dx, hertz*dy);
+
+    this->velocity = Vector2D(hertz*dx + this->velocity.X(),
+                              hertz*dy + this->velocity.Y());
 }

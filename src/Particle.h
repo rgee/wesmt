@@ -26,10 +26,10 @@ public:
 	void SetPosition(Vector2D vec) {position = vec;}
 
     // Gets position
-	Vector2D GetPosition() const {return this->position;}
+	inline Vector2D GetPosition() const {return this->position;}
 
     // Gets velocity
-	Vector2D GetVelocity() const {return this->velocity;}
+	inline Vector2D GetVelocity() const {return this->velocity;}
 	
 	// Computes the squared distance from this particle to another
 	float SquaredDistanceTo(const Particle &particle) const;
