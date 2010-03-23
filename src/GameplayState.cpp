@@ -6,13 +6,8 @@ using namespace std;
 void GameplayState::Initialize()
 {
     this->AddMass(Vector2D(300.0f, 400.0f), 500.0f, 20.0f);
-    this->AddMass(Vector2D(400.0f, 300.0f), 5000.0f, 20.0f);
+    this->AddMass(Vector2D(400.0f, 300.0f), 40000.0f, 20.0f);
     this->AddMass(Vector2D(500.0f, 200.0f), 500.0f, 10.0f);
-
-    for (int i = 0; i < 90; i++)
-    {
-        this->AddMass(Vector2D(250.0f, 250.0f), 10500.0f, 5.0f);
-    }
 }
 
 void GameplayState::AddMass(Vector2D position, float mass, float radius)
@@ -89,7 +84,7 @@ bool GameplayState::HandleEvents()
         case SDL_QUIT:
             return false;
         case SDL_MOUSEBUTTONDOWN:
-            this->AddMass(Vector2D((float)event.button.x, (float)event.button.y), 5.0f, 2.0f);
+            this->AddMass(Vector2D((float)event.button.x, (float)event.button.y), 50.0f, 2.0f);
             break;
         case SDL_KEYDOWN:
             switch(event.key.keysym.sym)       
