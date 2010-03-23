@@ -1,4 +1,4 @@
-#include "MainMenu.h"
+/*#include "MainMenu.h"
 
 void MainMenu::PlayGame()
 {
@@ -38,3 +38,4 @@ bool MainMenu::Update()
 bool MainMenu::Pause()
 {
 }
+*/

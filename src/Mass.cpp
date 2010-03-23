@@ -16,7 +16,6 @@
 
 void Mass::Draw()
 {
-    glPointSize(this->radius);
     glColor3f(0.5f, 1.0f, 0.5f);
     
 
@@ -26,10 +25,6 @@ void Mass::Draw()
         glVertex3f( this->GetPosition().X() + this->radius, this->GetPosition().Y() + this->radius, 0.0f);			// Bottom Right
         glVertex3f( this->GetPosition().X() + this->radius, this->GetPosition().Y() - this->radius, 0.0f);	        // Bottom left
     glEnd();
-
-    //glBegin(GL_POINTS);
-    //    glVertex3f(this->GetPosition().X(), this->GetPosition().Y(), 0);
-    //glEnd();
 }
 
 void Mass::ApplyGravityFrom(const Mass& body, float timestep)
