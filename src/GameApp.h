@@ -8,9 +8,10 @@
 #include <string>
 using namespace std;
 
+#include "GameplayState.h"
 #include "Mass.h"
 #include "StateManager.h"
-#include "GameplayState.h"
+
 
 class GameApp
 {
