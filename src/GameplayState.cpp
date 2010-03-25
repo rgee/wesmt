@@ -120,6 +120,9 @@ void GameplayState::AddMass(Vector2D position, float mass, float radius)
 
 void GameplayState::Cleanup()
 {
+    glDeleteShader(vShader);
+    glDeleteShader(fShader);
+    glDeleteProgram(program);
 }
 
 
