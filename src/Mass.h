@@ -28,7 +28,7 @@ public:
       mass(0.0f),
       radius(1.0f),
       exists(false)
-      {};
+      { SetColor(255, 255, 255); }
 
     // Destructor
     virtual ~Mass(){};
@@ -61,6 +61,11 @@ public:
     // Set the status of the AABB
     void SetBBDirty(bool dirty) { bbDirty = dirty;}
 
+    // Set this mass' color
+    void SetColor(GLubyte R, GLubyte G, GLubyte B) { r = R; g = G; b = B; }
+
+
+
 private:
     // Flag to say whether the AABB needs to be recomputed or not.
     // Dirty = AABB is centered at a previous point and needs recomputing
@@ -78,5 +83,8 @@ private:
 
     // Does this particle actually exist on screen?
     bool exists;
+
+    // Color values from 0-255
+    GLubyte r, g, b;
 };
 #endif

@@ -28,12 +28,12 @@ using namespace std;
 
 
 // Max particles to be displayed on screen.
-const int kMaxMasses = 100;
+const int kMaxMasses = 400;
 
 class GameplayState : public IGameState
 {
 public:
-    GameplayState() : masses(100), numMasses(0), zoomFactor(1.0f), totalMass(0.0f) { };
+    GameplayState() : masses(400), numMasses(0), zoomFactor(1.0f), totalMass(0.0f) { };
     virtual ~GameplayState() {};
 
     // IGameState interface

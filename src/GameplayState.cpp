@@ -14,6 +14,12 @@ void GameplayState::Initialize()
     this->AddMass(Vector2D(400.0f, 300.0f), 40000.0f, 20.0f);
     this->AddMass(Vector2D(500.0f, 200.0f), 500.0f, 10.0f);
 
+    this->masses[0].SetColor(255, 0, 55);
+
+    this->masses[1].SetColor(13, 255, 0);
+
+    this->masses[2].SetColor(0, 38, 255);
+
     // Compile and link shaders.
     SetupShaders();
 
@@ -102,12 +108,14 @@ void GameplayState::AddMass(Vector2D position, float mass, float radius)
 {
     if(this->numMasses == kMaxMasses) return;
 
-    this->numMasses++;
+    
     this->masses[numMasses].SetPosition(position);
     this->masses[numMasses].SetRadius(radius);
     this->masses[numMasses].SetMass(mass);
     this->masses[numMasses].SetExists(true);
     this->totalMass += mass;
+
+    this->numMasses++;
 }
 
 void GameplayState::Cleanup()
@@ -129,6 +137,7 @@ void GameplayState::Cleanup()
 // CURRENT FUNCTION STATUS: BROKEN
 Vector2D GameplayState::GetOGLCoordinates(float x, float y)
 {
+    /*
     GLint viewport[4];
     GLdouble modelView[16];
     GLdouble projection[16];
@@ -159,6 +168,9 @@ Vector2D GameplayState::GetOGLCoordinates(float x, float y)
 
 
     return Vector2D((x2 - x1) * (z2 / z1) , (y2 - y1) * (z2/z1));
+    */
+
+    return Vector2D(0, 0);
 }
 
 bool GameplayState::HandleEvents()

@@ -16,15 +16,19 @@
 
 void Mass::Draw()
 {
-    glColor3f(0.5f, 1.0f, 0.5f);
-    
+    glColor3f(this->r, this->g, this->b);
+    GLfloat square[] = { this->GetPosition().X() - this->radius, this->GetPosition().Y() - this->radius, 0.0f,
+                           this->GetPosition().X() - this->radius, this->GetPosition().Y() + this->radius, 0.0f,
+                           this->GetPosition().X() + this->radius, this->GetPosition().Y() + this->radius, 0.0f,
+                           this->GetPosition().X() + this->radius, this->GetPosition().Y() - this->radius, 0.0f };
+    GLubyte indices[] = {0, 1, 2,
+                         3, 1, 2};
 
-    glBegin(GL_QUADS);
-        glVertex3f( this->GetPosition().X() - this->radius, this->GetPosition().Y() - this->radius, 0.0f);			// Top Left
-		glVertex3f( this->GetPosition().X() - this->radius, this->GetPosition().Y() + this->radius, 0.0f);			// Top Right
-        glVertex3f( this->GetPosition().X() + this->radius, this->GetPosition().Y() + this->radius, 0.0f);			// Bottom Right
-        glVertex3f( this->GetPosition().X() + this->radius, this->GetPosition().Y() - this->radius, 0.0f);	        // Bottom left
-    glEnd();
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(3, GL_FLOAT, 0, square);
+    glDrawElements(GL_QUADS, 6, GL_UNSIGNED_BYTE, indices);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+
 }
 
 void Mass::ApplyGravityFrom(const Mass& body, float timestep)
