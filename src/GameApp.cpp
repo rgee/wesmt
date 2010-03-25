@@ -1,3 +1,5 @@
+#include "../libs/GLee.h"
+
 #ifdef WIN32
     #include <windows.h>
 #endif
