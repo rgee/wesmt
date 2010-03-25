@@ -3,11 +3,99 @@
 #include <string>
 using namespace std;
 
+// Globals for the shader.
+// NEEDS TO BE REFACTORED WHEN SHADER MANAGER
+// IS WRITTEN.
+GLuint vShader, fShader, program;
+
 void GameplayState::Initialize()
 {
     this->AddMass(Vector2D(300.0f, 400.0f), 500.0f, 20.0f);
     this->AddMass(Vector2D(400.0f, 300.0f), 40000.0f, 20.0f);
     this->AddMass(Vector2D(500.0f, 200.0f), 500.0f, 10.0f);
+
+    // Compile and link shaders.
+    SetupShaders();
+
+}
+
+void GameplayState::SetupShaders()
+{
+    GLint success;
+    const GLchar* vsStringPtr[1];
+    const GLchar* fsStringPtr[1];
+
+        GLchar vsString[] = 
+        "void main(void)\n"
+        "{\n"
+        "    // This is our Hello World vertex shader\n"
+        "    // notice how comments are preceded by '//'\n"
+        "\n"
+        "    // normal MVP transform\n"
+        "    vec4 clipCoord = gl_ModelViewProjectionMatrix * gl_Vertex;\n"
+        "    gl_Position = clipCoord;\n"
+        "\n"
+        "    // Copy the primary color\n"
+        "    gl_FrontColor = gl_Color;\n"
+        "\n"
+        "    // Calculate NDC\n"
+        "    vec4 ndc = vec4(clipCoord.xyz, 0) / clipCoord.w;\n"
+        "\n"
+        "    // Map from [-1,1] to [0,1] before outputting\n"
+        "    gl_FrontSecondaryColor = (ndc * 0.5) + 0.5;\n"
+        "}\n";
+
+    GLchar fsString[] = 
+        "void main(void)\n"
+        "{\n"
+        "    // Mix primary and secondary colors, 50/50\n"
+        "    vec4 temp = mix(gl_Color, vec4(vec3(gl_SecondaryColor), 1.0), 0.3);\n"
+        "\n"
+        "    gl_FragColor = temp * 0.3;\n"
+        "}\n";
+
+        if (!GLEE_VERSION_2_0 && (!GLEE_ARB_vertex_shader || 
+                              !GLEE_ARB_fragment_shader || 
+                              !GLEE_ARB_shader_objects || 
+                              !GLEE_ARB_shading_language_100))
+        {
+            // Should quit
+        }
+    
+        // Create shader objects and specify shader contents
+        vShader = glCreateShader(GL_VERTEX_SHADER);
+        fShader = glCreateShader(GL_FRAGMENT_SHADER);
+
+        vsStringPtr[0] = vsString;
+        glShaderSource(vShader, 1, vsStringPtr, NULL);
+
+        fsStringPtr[0] = fsString;
+        glShaderSource(fShader, 1, fsStringPtr, NULL);
+
+        // Compile and check for errors
+        glCompileShader(vShader);
+        glGetShaderiv(vShader, GL_COMPILE_STATUS, &success);
+        if(!success)
+        {
+            // Should print errors
+        }
+
+        glCompileShader(fShader);
+        glGetShaderiv(fShader, GL_COMPILE_STATUS, &success);
+        if(!success)
+        {
+            // Should print errors
+        }
+
+        // Create program object
+        program = glCreateProgram();
+        glAttachShader(program, vShader);
+        glAttachShader(program, fShader);
+
+        // Link shaders
+
+        glLinkProgram(program);
+        glUseProgram(program);
 }
 
 void GameplayState::AddMass(Vector2D position, float mass, float radius)
@@ -125,6 +213,10 @@ void GameplayState::Render()
     //glTranslatef(0.0, 0.0, -6.0f);
     glScalef(this->zoomFactor, this->zoomFactor, this->zoomFactor);
     
+
+    // Validate shaders
+    glValidateProgram(program);
+
 
     for(vector<Mass>::iterator it = this->masses.begin(); it != this->masses.end(); ++it)
     {

@@ -7,8 +7,7 @@
 #include <vector>
 using namespace std;
 
-#include "Mass.h"
-#include "IGameState.h"
+#include "../libs/GLee.h"
 
 #ifdef WIN32
     #include <windows.h>
@@ -23,6 +22,10 @@ using namespace std;
 #endif
 
 #include "SDL/SDL.h"
+
+#include "Mass.h"
+#include "IGameState.h"
+
 
 // Max particles to be displayed on screen.
 const int kMaxMasses = 100;
@@ -50,6 +53,7 @@ private:
     // Translate window coordinates to openGL coordinates
     Vector2D GetOGLCoordinates(float x, float y);
 
+    void SetupShaders();
 
     // Masses
     vector<Mass> masses;
@@ -65,6 +69,7 @@ private:
     float totalMass;
 
     bool mouseDown;
+
 };
 
 #endif
