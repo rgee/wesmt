@@ -3,7 +3,7 @@
 #include <string.h>
 
 
-char *textFileRead(char *fn) {
+char* textFileRead(char *fn) {
 
 
 	FILE *fp;
