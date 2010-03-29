@@ -25,7 +25,7 @@ using namespace std;
 
 #include "Mass.h"
 #include "IGameState.h"
-
+#include "TextFileUtil.h"
 
 // Max particles to be displayed on screen.
 const int kMaxMasses = 400;
