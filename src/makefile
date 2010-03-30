@@ -1,5 +1,5 @@
-oglapp: GameApp.o Vector2D.o Particle.o Mass.o GameplayState.o GameApp.o StateManager.o AABB.o ../libs/GLee.o
-g++ -Wall -g -o oglapp.exe AABB.o StateManager.o Mass.o ../libs/GLee.o GameplayState.o GameApp.o Vector2D.o Particle.o `sdl-config --static-libs --libs`
+oglapp: GameApp.o Vector2D.o Particle.o Mass.o GameplayState.o GameApp.o StateManager.o AABB.o ../libs/GLee.o TextFileUtil.o
+g++ -Wall -g -o oglapp.exe AABB.o StateManager.o Mass.o ../libs/GLee.o GameplayState.o GameApp.o TextFileUtil.o Vector2D.o Particle.o `sdl-config --static-libs --libs`
  
 AABB.o: AABB.cpp AABB.h
 g++ -Wall -c AABB.cpp
@@ -21,7 +21,10 @@ g++ -Wall -c Particle.cpp
  
 StateManager.o: StateManager.cpp StateManager.h
 g++ -Wall -c StateManager.cpp
- 
+
+TextFileUtil.o: TextFileUtil.cpp TextFileUtil.h
+g++ -Wall -c TextFileUtil.cpp 
+
 GameplayState.o: GameplayState.cpp GameplayState.h IGameState.h
 g++ -Wall -c GameplayState.cpp
  
