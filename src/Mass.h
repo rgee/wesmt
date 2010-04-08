@@ -15,10 +15,10 @@ public:
     // Constructor
     Mass(Vector2D position, Vector2D velocity, float mass, float radius) :
       Particle(position, velocity),
-      bbDirty(false),
+      //bbDirty(false),
       mass(mass),
       radius(radius),
-      boundingBox(position, radius),
+      //boundingBox(position, radius),
       exists(false)
       {};
 
@@ -56,10 +56,10 @@ public:
     float GetRadius() const { return radius;}
 
     // Get the status of the AABB
-    bool GetBBDirty() const { return bbDirty;}
+    //bool GetBBDirty() const { return bbDirty;}
 
     // Set the status of the AABB
-    void SetBBDirty(bool dirty) { bbDirty = dirty;}
+    //void SetBBDirty(bool dirty) { bbDirty = dirty;}
 
     // Set this mass' color
     void SetColor(GLubyte R, GLubyte G, GLubyte B) { r = R; g = G; b = B; }
@@ -70,7 +70,7 @@ private:
     // Flag to say whether the AABB needs to be recomputed or not.
     // Dirty = AABB is centered at a previous point and needs recomputing
     // Not Dirty = AABB is current.
-    bool bbDirty;
+    //bool bbDirty;
 
     // The mass value of this mass
     float mass;
@@ -79,7 +79,7 @@ private:
 	float radius;
 
     // This mass's bounding box
-    AABB boundingBox;
+    //AABB boundingBox;
 
     // Does this particle actually exist on screen?
     bool exists;

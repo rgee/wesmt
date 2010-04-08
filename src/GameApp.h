@@ -5,9 +5,7 @@
 #ifndef GAMEAPP_H
 #define GAMEAPP_H
 
-#include <string>
-using namespace std;
-
+#include "MainMenu.h"
 #include "GameplayState.h"
 #include "Mass.h"
 #include "StateManager.h"

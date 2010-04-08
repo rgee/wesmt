@@ -18,8 +18,6 @@
 #include "SDL/SDL.h"
 #include "GameApp.h"
 
-using namespace std;
-
 
 void GameApp::Initialize()
 {
@@ -73,6 +71,7 @@ void GameApp::Quit()
 void GameApp::BeginMainLoop()
 {
     this->stateManager = StateManager(new GameplayState());
+    //this->stateManager = StateManager(new MainMenu());
 
     int frames = 0, update;
     float fps;
@@ -105,6 +104,7 @@ void GameApp::BeginMainLoop()
 
 int main(int argc, char **argv)
 {  
+    
 	GameApp app = GameApp(800, 600, false, "Wesleyan Multitouch Particles");
 	return 1;
 }
