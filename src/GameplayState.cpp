@@ -10,6 +10,8 @@ GLuint vShader, fShader, program;
 
 void GameplayState::Initialize()
 {
+    
+
     this->AddMass(Vector2D(300.0f, 400.0f), 500.0f, 20.0f);
     this->AddMass(Vector2D(400.0f, 300.0f), 40000.0f, 20.0f);
     this->AddMass(Vector2D(500.0f, 200.0f), 500.0f, 10.0f);
@@ -22,6 +24,36 @@ void GameplayState::Initialize()
 
     // Compile and link shaders.
     SetupShaders();
+
+#ifdef WIN32
+    SetupSound();
+#endif
+
+}
+
+
+void GameplayState::FMODCheckError(FMOD_RESULT result)
+{
+    if(result != FMOD_OK)
+    {
+        printf("FMOD Error (%d) %s\n", result, FMOD_ErrorString(result));
+        exit(-1);
+    }
+}
+
+void GameplayState::SetupSound()
+{
+    /* Create the audio system */
+    FMODCheckError(FMOD::System_Create(&system));
+
+    /* Initialize the audio system */
+    FMODCheckError(system->init(1, FMOD_INIT_NORMAL, 0));
+
+    /* Create a streaming resource to an audio file. (Saves memory over decoding an entire file at once) */
+    FMODCheckError(system->createStream("../media/multitouch01.mp3", FMOD_HARDWARE | FMOD_LOOP_NORMAL | FMOD_2D, 0, &sound));
+
+    /* Play the sound, looping */
+    FMODCheckError(system->playSound(FMOD_CHANNEL_FREE, sound, false, &channel));
 
 }
 
@@ -99,57 +131,9 @@ void GameplayState::Cleanup()
     glDeleteShader(vShader);
     glDeleteShader(fShader);
     glDeleteProgram(program);
-}
-
-
-
-
-// This might be very messy without a 3d vector class. We need to write one, but I 
-// recommend keeping it separate from the 3d vector class because 99% of the time
-// we know the z component of what we're using and it's always the same value. There's
-// no reason to use a 3-dimensional vector there and store an extra float value that may
-// never be used and may never change.
-// 
-// However, here a 3d vector would be useful because we actually are dealing with depth to
-// intersect with the plane on the Y axis...
-//
-// CURRENT FUNCTION STATUS: BROKEN
-Vector2D GameplayState::GetOGLCoordinates(float x, float y)
-{
-    /*
-    GLint viewport[4];
-    GLdouble modelView[16];
-    GLdouble projection[16];
-    GLfloat winX, winY;
-    GLfloat newDepth;
-    GLdouble x1, y1, z1, x2, y2, z2;
-
-    glGetDoublev(GL_MODELVIEW_MATRIX, modelView);
-    glGetDoublev(GL_PROJECTION_MATRIX, projection);
-    glGetIntegerv(GL_VIEWPORT, viewport);
-
-    winX = (float)x;
-    winY = (float)viewport[3] - y;
-
-
-    //glReadPixels(winX, winY, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &newDepth);
-
-
-    // We unProject twice with z = 1 and z = 0 then intersect the line segment created by these
-    // two points with the Y-plane. The point of intersection is our position.
-
-    // Near plane
-    gluUnProject(winX, winY,  0, modelView, projection, viewport, &x1, &y1, &z1);
-
-    // Far plane
-    gluUnProject(winX, winY,  1, modelView, projection, viewport, &x2, &y2, &z2);
-
-
-
-    return Vector2D((x2 - x1) * (z2 / z1) , (y2 - y1) * (z2/z1));
-    */
-
-    return Vector2D(0, 0);
+    FMODCheckError(sound->release());
+    FMODCheckError(system->close());
+    FMODCheckError(system->release());
 }
 
 bool GameplayState::HandleEvents()
@@ -201,11 +185,8 @@ void GameplayState::Render()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	
-    //glTranslatef(0.0, 0.0, -6.0f);
     glScalef(this->zoomFactor, this->zoomFactor, this->zoomFactor);
     
-
-    // Validate shaders
     glValidateProgram(program);
 
 
@@ -220,7 +201,6 @@ void GameplayState::Render()
 
 bool GameplayState::Update()
 {
-    //SDL_PumpEvents();
     if(!this->HandleEvents()) return false;
 
     for(vector<Mass>::iterator it = this->masses.begin(); it != this->masses.end(); ++it)

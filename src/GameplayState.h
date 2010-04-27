@@ -9,8 +9,21 @@ using namespace std;
 
 #include "../libs/GLee.h"
 
+
+
+
 #ifdef WIN32
     #include <windows.h>
+
+    /* Keeping this inside the conditional until we get someone with 
+       a non-Windows machine to install fmod and see where the headers
+       end up.
+
+       For now, Windows devs just point visual studio's directories to
+       the location where you installed the SDK
+    */
+    #include "fmod.hpp"
+    #include "fmod_errors.h"
 #endif
 
 #ifdef __APPLE__
@@ -20,6 +33,8 @@ using namespace std;
     #include <GL/gl.h>
     #include <GL/glu.h>
 #endif
+
+
 
 #include "SDL/SDL.h"
 
@@ -53,11 +68,17 @@ private:
     // Translate window coordinates to openGL coordinates
     Vector2D GetOGLCoordinates(float x, float y);
 
+    // Loads and compiles shaders
     void SetupShaders();
+
+    // Initializes and starts the audio system.
+    void SetupSound();
+
+    // Helper function to check the result code of FMOD function calls
+    void FMODCheckError(FMOD_RESULT result);
 
     // Masses
     vector<Mass> masses;
-
 
     // Current number of masses
     int numMasses;
@@ -68,7 +89,17 @@ private:
     // The sum of the mass values of all masses on screen
     float totalMass;
 
+    // Is the mouse being pressed?
     bool mouseDown;
+
+    // FMOD sound system
+    FMOD::System  *system;
+
+    // FMOD sound object
+    FMOD::Sound   *sound;
+
+    // FMOD channel object
+    FMOD::Channel *channel;
 
 };
 
