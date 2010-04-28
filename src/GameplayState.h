@@ -45,10 +45,13 @@ using namespace std;
 // Max particles to be displayed on screen.
 const int kMaxMasses = 400;
 
+// The amount of gravity wells that can be active at once.
+const int kMaxWells = 5;
+
 class GameplayState : public IGameState
 {
 public:
-    GameplayState() : masses(400), numMasses(0), zoomFactor(1.0f), totalMass(0.0f) { };
+    GameplayState() : masses(kMaxMasses), numMasses(0), zoomFactor(1.0f), totalMass(0.0f) { };
     virtual ~GameplayState() {};
 
     // IGameState interface
@@ -76,6 +79,7 @@ private:
 
     // Helper function to check the result code of FMOD function calls
     void FMODCheckError(FMOD_RESULT result);
+
 
     // Masses
     vector<Mass> masses;

@@ -107,24 +107,25 @@ void GameplayState::SetupShaders()
     glAttachShader(program, fShader);
 
     // Link shaders
-
     glLinkProgram(program);
     glUseProgram(program);
 }
 
-void GameplayState::AddMass(Vector2D position, float mass, float radius)
+void GameplayState::AddMass(Vector2D position, float mass, float size)
 {
     if(this->numMasses == kMaxMasses) return;
 
     
     this->masses[numMasses].SetPosition(position);
-    this->masses[numMasses].SetRadius(radius);
+    this->masses[numMasses].SetSize(size);
     this->masses[numMasses].SetMass(mass);
     this->masses[numMasses].SetExists(true);
     this->totalMass += mass;
 
     this->numMasses++;
 }
+
+
 
 void GameplayState::Cleanup()
 {

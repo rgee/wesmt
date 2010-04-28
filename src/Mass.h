@@ -6,6 +6,7 @@
 #include "Vector2D.h"
 #include "Particle.h"
 #include "AABB.h"
+#include "Well.h"
 
 
 class Mass : public Particle
@@ -13,12 +14,12 @@ class Mass : public Particle
 public:
 
     // Constructor
-    Mass(Vector2D position, Vector2D velocity, float mass, float radius) :
+    Mass(Vector2D position, Vector2D velocity, float mass, float size) :
       Particle(position, velocity),
       //bbDirty(false),
       mass(mass),
-      radius(radius),
-      //boundingBox(position, radius),
+      size(size),
+      //boundingBox(position, size),
       exists(false)
       {};
 
@@ -26,7 +27,7 @@ public:
     Mass() : 
       Particle(Vector2D(0.0f,0.0f),Vector2D(0.0f,0.0f)),
       mass(0.0f),
-      radius(1.0f),
+      size(1.0f),
       exists(false)
       { SetColor(255, 255, 255); }
 
@@ -46,14 +47,14 @@ public:
     // Sets the mass
     void SetMass(float newMass) {mass = newMass;}
 
-    // Sets the radius
-    void SetRadius(float newRadius) {radius = newRadius;}
+    // Sets the size
+    void SetSize(float newsize) {size = newsize;}
 
     // Gets the mass
     inline float GetMass() const { return mass;}
 
-    // Gets the radius
-    float GetRadius() const { return radius;}
+    // Gets the size
+    float GetSize() const { return size;}
 
     // Get the status of the AABB
     //bool GetBBDirty() const { return bbDirty;}
@@ -75,8 +76,8 @@ private:
     // The mass value of this mass
     float mass;
 
-    // The radius of this mass
-	float radius;
+    // The size of this mass
+	float size;
 
     // This mass's bounding box
     //AABB boundingBox;
