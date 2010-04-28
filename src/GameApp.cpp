@@ -18,8 +18,6 @@
 #include "SDL/SDL.h"
 #include "GameApp.h"
 
-using namespace std;
-
 
 void GameApp::Initialize()
 {
@@ -38,21 +36,13 @@ void GameApp::Initialize()
 	}
 	SDL_WM_SetCaption("Wesleyan Multitouch Particles", NULL);
 	
-	puts("Initializing OpenGL");
 	
     glViewport(0, 0, this->width, this->height);
-	
-	// Clear the screen to black for each draw call
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f); 
-	
 	glClearDepth(1.0);
 	glDepthFunc(GL_LESS);
 	glEnable(GL_DEPTH_TEST);
-	
-	// Enable smooth shading
 	glShadeModel(GL_SMOOTH);
-	
-	// Reset the projection matrix
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
@@ -105,6 +95,7 @@ void GameApp::BeginMainLoop()
 
 int main(int argc, char **argv)
 {  
+    
 	GameApp app = GameApp(800, 600, false, "Wesleyan Multitouch Particles");
 	return 1;
 }

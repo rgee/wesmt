@@ -8,9 +8,10 @@ class Particle
 {
 public:
     // Constructor
-	Particle(Vector2D pos, Vector2D vel)
+	Particle(Vector2D pos, Vector2D vel, float mass)
 	: position(pos),
-	  velocity(vel)
+	  velocity(vel),
+      mass(mass)
     {}
 
     // Default constructor
@@ -25,12 +26,18 @@ public:
     // Sets position
 	void SetPosition(Vector2D vec) {position = vec;}
 
+    // Sets mass
+    void SetMass(float newMass){this->mass = newMass;}
+
     // Gets position
 	inline Vector2D GetPosition() const {return this->position;}
 
     // Gets velocity
 	inline Vector2D GetVelocity() const {return this->velocity;}
-	
+
+    // Gets mass
+    float GetMass() const {return this->mass;}
+    
 	// Computes the squared distance from this particle to another
 	float SquaredDistanceTo(const Particle &particle) const;
 	
@@ -43,6 +50,7 @@ public:
 protected:
 	Vector2D position;
 	Vector2D velocity;
+    float mass;
 };
 
 #endif

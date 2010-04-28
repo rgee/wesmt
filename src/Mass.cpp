@@ -17,10 +17,10 @@
 void Mass::Draw()
 {
     glColor3f(this->r, this->g, this->b);
-    GLfloat square[] = { this->GetPosition().X() - this->radius, this->GetPosition().Y() - this->radius, 0.0f,
-                           this->GetPosition().X() - this->radius, this->GetPosition().Y() + this->radius, 0.0f,
-                           this->GetPosition().X() + this->radius, this->GetPosition().Y() + this->radius, 0.0f,
-                           this->GetPosition().X() + this->radius, this->GetPosition().Y() - this->radius, 0.0f };
+    GLfloat square[] = { this->position.X() - this->size, this->position.Y() - this->size, 0.0f, /* Top left */
+                           this->position.X() - this->size, this->position.Y() + this->size, 0.0f, /* Bottom left */
+                           this->position.X() + this->size, this->position.Y() + this->size, 0.0f, /* Bottom right */
+                           this->position.X() + this->size, this->position.Y() - this->size, 0.0f }; /* Top right */
     GLubyte indices[] = {0, 1, 2,
                          3, 1, 2};
 
@@ -31,7 +31,7 @@ void Mass::Draw()
 
 }
 
-void Mass::ApplyGravityFrom(const Mass& body, float timestep)
+void Mass::ApplyGravityFrom(const Particle& body, float timestep)
 {
     float dx = this->position.X() - body.GetPosition().X(),
           dy = this->position.Y() - body.GetPosition().Y(),

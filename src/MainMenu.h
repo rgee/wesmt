@@ -2,26 +2,35 @@
 #define MAINMENU_H
 
 #include <string>
-#include <map>
 #include <vector>
 
-using namespace std;
+#include "../libs/GLee.h"
+
+#ifdef WIN32
+    #include <windows.h>
+#endif
+
+#ifdef __APPLE__
+    #include <OpenGL/gl.h>
+    #include <OpenGL/glu.h>
+#else
+    #include <GL/gl.h>
+    #include <GL/glu.h>
+#endif
+
+#include "SDL/SDL.h"
 
 #include "IGameState.h"
 
+using namespace std;
 
 class MainMenu : public IGameState
 {
 public:
 
-    // Typedef for MainMenu member function pointers
-    typedef void (MainMenu::*Callback)();
-    
-    // Typedef for a map from strings to MainMenu member function pointers
-    typedef map<string, Callback> CBTable;
+    MainMenu() : currentSelectedItem(0), menuItems(20) { };
 
-    MainMenu() { selectedItem = this->callbacks.find("Play Game"); };
-    virtual ~MainMenu();
+    virtual ~MainMenu() {};
 
     // What happens when a user selects the play game option
     void PlayGame();
@@ -32,14 +41,7 @@ public:
     // What happens when a user selects the Options option
     void OptionsMenu();
 
-    // Select the next item in the menu
-    void SelectNext() { selectedItem++; };
-
-    // Select the previous item in the menu
-    void SelectPrevious() { selectedItem--;};
-    
-    // Confirm a selection
-    void Confirm() {(*selectedItem).second(); }
+    void ConfirmCurrentSelection();
 
     // IGameState interface
     virtual void Initialize();
@@ -51,11 +53,8 @@ public:
     virtual void Render();
 
 private:
-    // A map from strings to member function pointers
-    CBTable callbacks;
-
-    // Iterator over the map of callbacks
-    CBTable::const_iterator selectedItem;
+    int currentSelectedItem;
+    vector<string> menuItems;
 };
 
 #endif
