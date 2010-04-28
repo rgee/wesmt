@@ -38,9 +38,11 @@ using namespace std;
 
 #include "SDL/SDL.h"
 
-#include "Mass.h"
+class Well;
+class Vector2D;
 #include "IGameState.h"
 #include "TextFileUtil.h"
+#include "Mass.h"
 
 // Max particles to be displayed on screen.
 const int kMaxMasses = 400;
@@ -51,7 +53,7 @@ const int kMaxWells = 5;
 class GameplayState : public IGameState
 {
 public:
-    GameplayState() : masses(kMaxMasses), numMasses(0), zoomFactor(1.0f), totalMass(0.0f) { };
+    GameplayState() : wells(kMaxWells), masses(kMaxMasses), numMasses(0), numWells(0), zoomFactor(1.0f), totalMass(0.0f) { };
     virtual ~GameplayState() {};
 
     // IGameState interface
@@ -65,6 +67,9 @@ public:
 
 
 private:
+    // Add a new graivty well
+    void AddWell(Vector2D position, double lifespan);
+
     // Add a new mass to the system.
     void AddMass(Vector2D position, float mass, float radius);
 
@@ -80,12 +85,17 @@ private:
     // Helper function to check the result code of FMOD function calls
     void FMODCheckError(FMOD_RESULT result);
 
+    // Gravity wells
+    vector<Well> wells;
 
     // Masses
     vector<Mass> masses;
 
     // Current number of masses
     int numMasses;
+
+    // Current number of wells
+    int numWells;
 
     // Zoom factor for the perspective view
     float zoomFactor;

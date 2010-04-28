@@ -15,9 +15,8 @@ public:
 
     // Constructor
     Mass(Vector2D position, Vector2D velocity, float mass, float size) :
-      Particle(position, velocity),
+      Particle(position, velocity, mass),
       //bbDirty(false),
-      mass(mass),
       size(size),
       //boundingBox(position, size),
       exists(false)
@@ -25,8 +24,7 @@ public:
 
     // Default constructor
     Mass() : 
-      Particle(Vector2D(0.0f,0.0f),Vector2D(0.0f,0.0f)),
-      mass(0.0f),
+      Particle(Vector2D(0.0f,0.0f),Vector2D(0.0f,0.0f), 0),
       size(1.0f),
       exists(false)
       { SetColor(255, 255, 255); }
@@ -39,19 +37,15 @@ public:
 
     // Applies gravitational force from another gravitational
     // body.
-    void ApplyGravityFrom(const Mass& body, float timestep);
+    void ApplyGravityFrom(const Particle& body, float timestep);
 
     // Draws this mass to the screen
     void Draw();
 
-    // Sets the mass
-    void SetMass(float newMass) {mass = newMass;}
 
     // Sets the size
     void SetSize(float newsize) {size = newsize;}
 
-    // Gets the mass
-    inline float GetMass() const { return mass;}
 
     // Gets the size
     float GetSize() const { return size;}
@@ -72,9 +66,6 @@ private:
     // Dirty = AABB is centered at a previous point and needs recomputing
     // Not Dirty = AABB is current.
     //bool bbDirty;
-
-    // The mass value of this mass
-    float mass;
 
     // The size of this mass
 	float size;

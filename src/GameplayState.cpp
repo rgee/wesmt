@@ -111,6 +111,17 @@ void GameplayState::SetupShaders()
     glUseProgram(program);
 }
 
+void GameplayState::AddWell(Vector2D position, double lifespan)
+{
+    if(this->numWells == kMaxWells) return;
+
+    this->wells[numWells].SetPosition(position);
+    this->wells[numWells].SetMass(300000.0f);
+    this->wells[numWells].SetLifespan(lifespan);
+    this->wells[numWells].ToggleActive();
+    this->numWells++;
+}
+
 void GameplayState::AddMass(Vector2D position, float mass, float size)
 {
     if(this->numMasses == kMaxMasses) return;
@@ -148,7 +159,15 @@ bool GameplayState::HandleEvents()
         case SDL_QUIT:
             return false;
         case SDL_MOUSEBUTTONDOWN:
-            this->AddMass(Vector2D((float)event.button.x, (float)event.button.y), 50.0f, 2.0f);
+            if(event.button.button == SDL_BUTTON_LEFT)
+            {
+                this->AddWell(Vector2D((float)event.button.x, (float)event.button.y), 1);
+            }
+            else if(event.button.button == SDL_BUTTON_RIGHT)
+            {
+                this->AddMass(Vector2D((float)event.button.x, (float)event.button.y), 50.0f, 2.0f);
+            }
+            
             break;
         case SDL_KEYDOWN:
             switch(event.key.keysym.sym)       
@@ -204,18 +223,30 @@ bool GameplayState::Update()
 {
     if(!this->HandleEvents()) return false;
 
+    for(vector<Well>::iterator it = this->wells.begin(); it != this->wells.end(); ++it)
+    {
+        if(!it->IsActive())continue;
+        if(!it->CheckTime())
+        {
+            this->numWells--;
+        }
+    }
+
     for(vector<Mass>::iterator it = this->masses.begin(); it != this->masses.end(); ++it)
     {
         if(!it->GetExists()) continue;
         it->Update();
         
-        
-        for(vector<Mass>::iterator itB = this->masses.begin(); itB != this->masses.end(); ++itB){
-            if(&it != &itB) 
-                it->ApplyGravityFrom(*itB, 1.0f);
+
+        for(vector<Well>::iterator wellIt = this->wells.begin(); wellIt != this->wells.end(); ++wellIt)
+        {
+            if(!wellIt->IsActive())continue;
+            it->ApplyGravityFrom(*wellIt, 1.0f);
         }
-        
     }
+
+
+
 
     return true;
 }
