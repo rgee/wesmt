@@ -24,11 +24,9 @@ void GameplayState::Initialize()
 
     // Compile and link shaders.
     SetupShaders();
-
-#ifdef WIN32
+    
+    // Enable sounds
     SetupSound();
-#endif
-
 }
 
 

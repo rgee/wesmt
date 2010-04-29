@@ -3,7 +3,6 @@
 #ifndef GAMEPLAYSTATE_H
 #define GAMEPLAYSTATE_H
 
-
 #include <vector>
 using namespace std;
 
@@ -29,6 +28,8 @@ using namespace std;
 #ifdef __APPLE__
     #include <OpenGL/gl.h>
     #include <OpenGL/glu.h>
+    #include "/Developer/FMOD Programmers API Mac/api/inc/fmod.hpp"
+    #include "/Developer/FMOD Programmers API Mac/api/inc/fmod_errors.h"
 #else
     #include <GL/gl.h>
     #include <GL/glu.h>
