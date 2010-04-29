@@ -10,7 +10,6 @@
 #include "Mass.h"
 #include "StateManager.h"
 
-
 class GameApp
 {
 public:

@@ -1,5 +1,5 @@
-oglapp: GameApp.o Vector2D.o Particle.o Mass.o GameplayState.o GameApp.o StateManager.o AABB.o ../libs/GLee.o TextFileUtil.o
-	g++ -Wall -g -o oglapp.exe AABB.o StateManager.o Mass.o ../libs/GLee.o GameplayState.o GameApp.o TextFileUtil.o Vector2D.o Particle.o `sdl-config --static-libs --libs`
+oglapp: GameApp.o Vector2D.o Particle.o Well.o Mass.o Well.o GameplayState.o GameApp.o StateManager.o AABB.o ../libs/GLee.o TextFileUtil.o
+	g++ -Wall -g -o oglapp.exe AABB.o StateManager.o Mass.o Well.o ../libs/GLee.o GameplayState.o GameApp.o TextFileUtil.o Vector2D.o Particle.o `sdl-config --static-libs --libs` /usr/local/lib/libfmodex.dylib
  
 AABB.o: AABB.cpp AABB.h
 	g++ -Wall -c AABB.cpp
@@ -18,6 +18,9 @@ Vector2D.o: Vector2D.cpp Vector2D.h
  
 Particle.o: Particle.cpp Particle.h
 	g++ -Wall -c Particle.cpp
+
+Well.o: Well.cpp Well.h
+	g++ -Wall -c Well.cpp
  
 StateManager.o: StateManager.cpp StateManager.h
 	g++ -Wall -c StateManager.cpp
