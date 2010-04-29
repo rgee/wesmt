@@ -13,14 +13,6 @@ using namespace std;
 
 #ifdef WIN32
     #include <windows.h>
-
-    /* Keeping this inside the conditional until we get someone with 
-       a non-Windows machine to install fmod and see where the headers
-       end up.
-
-       For now, Windows devs just point visual studio's directories to
-       the location where you installed the SDK
-    */
     #include "fmod.hpp"
     #include "fmod_errors.h"
 #endif
@@ -49,7 +41,7 @@ class Vector2D;
 const int kMaxMasses = 400;
 
 // The amount of gravity wells that can be active at once.
-const int kMaxWells = 5;
+const int kMaxWells = 50;
 
 class GameplayState : public IGameState
 {

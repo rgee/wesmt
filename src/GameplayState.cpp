@@ -35,7 +35,6 @@ void GameplayState::FMODCheckError(FMOD_RESULT result)
     if(result != FMOD_OK)
     {
         printf("FMOD Error (%d) %s\n", result, FMOD_ErrorString(result));
-        exit(-1);
     }
 }
 
@@ -114,7 +113,7 @@ void GameplayState::AddWell(Vector2D position, double lifespan)
     if(this->numWells == kMaxWells) return;
 
     this->wells[numWells].SetPosition(position);
-    this->wells[numWells].SetMass(300000.0f);
+    this->wells[numWells].SetMass(30000.0f);
     this->wells[numWells].SetLifespan(lifespan);
     this->wells[numWells].ToggleActive();
     this->numWells++;
@@ -159,7 +158,7 @@ bool GameplayState::HandleEvents()
         case SDL_MOUSEBUTTONDOWN:
             if(event.button.button == SDL_BUTTON_LEFT)
             {
-                this->AddWell(Vector2D((float)event.button.x, (float)event.button.y), 1);
+                this->AddWell(Vector2D((float)event.button.x, (float)event.button.y), 5);
             }
             else if(event.button.button == SDL_BUTTON_RIGHT)
             {
@@ -211,6 +210,12 @@ void GameplayState::Render()
     for(vector<Mass>::iterator it = this->masses.begin(); it != this->masses.end(); ++it)
     {
         if(!it->GetExists()) continue;
+        it->Draw();
+    }
+
+    for(vector<Well>::iterator it = this->wells.begin(); it != this->wells.end(); ++it)
+    {
+        if(!it->IsActive()) continue;
         it->Draw();
     }
 
