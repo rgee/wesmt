@@ -27,13 +27,13 @@ void GameplayState::Initialize()
 void GameplayState::AddWell(Vector2D position, double lifespan)
 {
     if(wells.size() >= kMaxWells) return;
-    wells.push_back(Well(position, 30000.0f, lifespan)); 
+    wells.push_back(WellPtr(new Well(position, 30000.0f, lifespan))); 
 }
 
 void GameplayState::AddMass(Vector2D position, float mass, float size)
 {
     if(masses.size() >= kMaxMasses) return;
-    masses.push_back(Mass(position, Vector2D(0.0f,0.0f), mass, size, 255.0f, 255.0f, 255.0f));
+    masses.push_back(MassPtr(new Mass(position, Vector2D(0.0f,0.0f), mass, size, 255.0f, 255.0f, 255.0f)));
     this->totalMass += mass;
 }
 
@@ -121,6 +121,7 @@ void GameplayState::SetupShaders()
 
 void GameplayState::Cleanup()
 {
+
     glDeleteShader(vShader);
     glDeleteShader(fShader);
     glDeleteProgram(program);
@@ -191,15 +192,15 @@ void GameplayState::Render()
     glValidateProgram(program);
 
 
-    for(vector<Mass>::iterator it = this->masses.begin(); it != this->masses.end(); ++it)
+    for(vector<MassPtr>::iterator it = this->masses.begin(); it != this->masses.end(); ++it)
     {
         
-        it->Draw();
+        (*it)->Draw();
     }
 
-    for(vector<Well>::iterator it = this->wells.begin(); it != this->wells.end(); ++it)
+    for(vector<WellPtr>::iterator it = this->wells.begin(); it != this->wells.end(); ++it)
     {
-        it->Draw();
+        (*it)->Draw();
     }
 
     SDL_GL_SwapBuffers();
@@ -209,22 +210,22 @@ bool GameplayState::Update()
 {
     if(!this->HandleEvents()) return false;
 
-    for(vector<Well>::iterator it = this->wells.begin(); it != this->wells.end(); ++it)
+    for(vector<WellPtr>::iterator it = this->wells.begin(); it != this->wells.end(); ++it)
     {
-        if(!it->CheckTime())
+        if(!(*it)->CheckTime())
         {
             wells.erase(it);
             break;
         }
     }
 
-    for(vector<Mass>::iterator it = this->masses.begin(); it != this->masses.end(); ++it)
+    for(vector<MassPtr>::iterator it = this->masses.begin(); it != this->masses.end(); ++it)
     {
-        it->Update();
+        (*it)->Update();
         
-        for(vector<Well>::iterator wellIt = this->wells.begin(); wellIt != this->wells.end(); ++wellIt)
+        for(vector<WellPtr>::iterator wellIt = this->wells.begin(); wellIt != this->wells.end(); ++wellIt)
         {
-            it->ApplyGravityFrom(*wellIt, 1.0f);
+            (*it)->ApplyGravityFrom(*(*wellIt).get(), 1.0f);
         }
     }
 

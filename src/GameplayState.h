@@ -8,7 +8,7 @@ using namespace std;
 
 #include "../libs/GLee.h"
 
-
+#include <boost/shared_ptr.hpp>
 
 
 #ifdef WIN32
@@ -36,6 +36,9 @@ class Vector2D;
 #include "IGameState.h"
 #include "TextFileUtil.h"
 #include "Mass.h"
+
+typedef boost::shared_ptr<Mass> MassPtr;
+typedef boost::shared_ptr<Well> WellPtr;
 
 // Max particles to be displayed on screen.
 const int kMaxMasses = 40000;
@@ -79,10 +82,10 @@ private:
     void FMODCheckError(FMOD_RESULT result);
 
     // Gravity wells
-    vector<Well> wells;
+    vector<WellPtr> wells;
 
     // Masses
-    vector<Mass> masses;
+    vector<MassPtr> masses;
 
     // Zoom factor for the perspective view
     float zoomFactor;

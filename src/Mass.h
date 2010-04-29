@@ -9,6 +9,8 @@
 #include "Well.h"
 
 
+
+
 class Mass : public Particle
 {
 public:
@@ -35,7 +37,7 @@ public:
 
     // Applies gravitational force from another gravitational
     // body.
-    void ApplyGravityFrom(const Particle& body, float timestep);
+    void ApplyGravityFrom(Particle& body, float timestep);
 
     // Draws this mass to the screen
     void Draw();

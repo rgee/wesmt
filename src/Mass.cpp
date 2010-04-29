@@ -31,7 +31,7 @@ void Mass::Draw()
 
 }
 
-void Mass::ApplyGravityFrom(const Particle& body, float timestep)
+void Mass::ApplyGravityFrom(Particle& body, float timestep)
 {
     float dx = this->position.X() - body.GetPosition().X(),
           dy = this->position.Y() - body.GetPosition().Y(),
