@@ -1,16 +1,5 @@
 #include "Well.h"
 
-void Well::ToggleActive()
-{
-    isActive = !isActive;
-
-    if(isActive)
-    {
-        // Grab the creation time
-        time(&start);
-    }
-}
-
 bool Well::CheckTime()
 {
     // Grab the current time and compare it to
@@ -18,7 +7,6 @@ bool Well::CheckTime()
     time(&end);
     if(difftime(end, start) >= lifespan)
     {
-        this->isActive = false;
         this->start = NULL;
         this->end = NULL;
         return false;

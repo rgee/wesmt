@@ -38,7 +38,7 @@ class Vector2D;
 #include "Mass.h"
 
 // Max particles to be displayed on screen.
-const int kMaxMasses = 400;
+const int kMaxMasses = 40000;
 
 // The amount of gravity wells that can be active at once.
 const int kMaxWells = 50;
@@ -46,7 +46,7 @@ const int kMaxWells = 50;
 class GameplayState : public IGameState
 {
 public:
-    GameplayState() : wells(kMaxWells), masses(kMaxMasses), numMasses(0), numWells(0), zoomFactor(1.0f), totalMass(0.0f) { };
+    GameplayState() : zoomFactor(1.0f), totalMass(0.0f) { };
     virtual ~GameplayState() {};
 
     // IGameState interface
@@ -83,12 +83,6 @@ private:
 
     // Masses
     vector<Mass> masses;
-
-    // Current number of masses
-    int numMasses;
-
-    // Current number of wells
-    int numWells;
 
     // Zoom factor for the perspective view
     float zoomFactor;

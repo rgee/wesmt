@@ -14,26 +14,24 @@ class Mass : public Particle
 public:
 
     // Constructor
-    Mass(Vector2D position, Vector2D velocity, float mass, float size) :
+    Mass(Vector2D position, Vector2D velocity, float mass, float size, float r, float g, float b) :
       Particle(position, velocity, mass),
       //bbDirty(false),
       size(size),
       //boundingBox(position, size),
-      exists(false)
+      r(r),
+      g(g),
+      b(b)
       {};
 
     // Default constructor
     Mass() : 
       Particle(Vector2D(0.0f,0.0f),Vector2D(0.0f,0.0f), 0),
-      size(1.0f),
-      exists(false)
+      size(1.0f)
       { SetColor(255, 255, 255); }
 
     // Destructor
     virtual ~Mass(){};
-
-    inline void SetExists(bool newExists) { exists = newExists;}
-    inline bool GetExists() { return exists;}
 
     // Applies gravitational force from another gravitational
     // body.
@@ -72,9 +70,6 @@ private:
 
     // This mass's bounding box
     //AABB boundingBox;
-
-    // Does this particle actually exist on screen?
-    bool exists;
 
     // Color values from 0-255
     GLubyte r, g, b;

@@ -10,23 +10,31 @@ GLuint vShader, fShader, program;
 
 void GameplayState::Initialize()
 {
-    
 
     this->AddMass(Vector2D(300.0f, 400.0f), 500.0f, 20.0f);
     this->AddMass(Vector2D(400.0f, 300.0f), 40000.0f, 20.0f);
     this->AddMass(Vector2D(500.0f, 200.0f), 500.0f, 10.0f);
 
-    this->masses[0].SetColor(255, 0, 55);
-
-    this->masses[1].SetColor(13, 255, 0);
-
-    this->masses[2].SetColor(0, 38, 255);
 
     // Compile and link shaders.
     SetupShaders();
     
     // Enable sounds
     SetupSound();
+}
+
+
+void GameplayState::AddWell(Vector2D position, double lifespan)
+{
+    if(wells.size() >= kMaxWells) return;
+    wells.push_back(Well(position, 30000.0f, lifespan)); 
+}
+
+void GameplayState::AddMass(Vector2D position, float mass, float size)
+{
+    if(masses.size() >= kMaxMasses) return;
+    masses.push_back(Mass(position, Vector2D(0.0f,0.0f), mass, size, 255.0f, 255.0f, 255.0f));
+    this->totalMass += mass;
 }
 
 
@@ -108,30 +116,6 @@ void GameplayState::SetupShaders()
     glUseProgram(program);
 }
 
-void GameplayState::AddWell(Vector2D position, double lifespan)
-{
-    if(this->numWells == kMaxWells) return;
-
-    this->wells[numWells].SetPosition(position);
-    this->wells[numWells].SetMass(30000.0f);
-    this->wells[numWells].SetLifespan(lifespan);
-    this->wells[numWells].ToggleActive();
-    this->numWells++;
-}
-
-void GameplayState::AddMass(Vector2D position, float mass, float size)
-{
-    if(this->numMasses == kMaxMasses) return;
-
-    
-    this->masses[numMasses].SetPosition(position);
-    this->masses[numMasses].SetSize(size);
-    this->masses[numMasses].SetMass(mass);
-    this->masses[numMasses].SetExists(true);
-    this->totalMass += mass;
-
-    this->numMasses++;
-}
 
 
 
@@ -209,13 +193,12 @@ void GameplayState::Render()
 
     for(vector<Mass>::iterator it = this->masses.begin(); it != this->masses.end(); ++it)
     {
-        if(!it->GetExists()) continue;
+        
         it->Draw();
     }
 
     for(vector<Well>::iterator it = this->wells.begin(); it != this->wells.end(); ++it)
     {
-        if(!it->IsActive()) continue;
         it->Draw();
     }
 
@@ -228,28 +211,22 @@ bool GameplayState::Update()
 
     for(vector<Well>::iterator it = this->wells.begin(); it != this->wells.end(); ++it)
     {
-        if(!it->IsActive())continue;
         if(!it->CheckTime())
         {
-            this->numWells--;
+            wells.erase(it);
+            break;
         }
     }
 
     for(vector<Mass>::iterator it = this->masses.begin(); it != this->masses.end(); ++it)
     {
-        if(!it->GetExists()) continue;
         it->Update();
         
-
         for(vector<Well>::iterator wellIt = this->wells.begin(); wellIt != this->wells.end(); ++wellIt)
         {
-            if(!wellIt->IsActive())continue;
             it->ApplyGravityFrom(*wellIt, 1.0f);
         }
     }
-
-
-
 
     return true;
 }
