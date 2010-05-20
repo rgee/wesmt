@@ -65,7 +65,6 @@ void GameApp::BeginMainLoop()
     this->stateManager = StateManager(new GameplayState());
 
     int frames = 0, update;
-    float fps;
     update = SDL_GetTicks();
 
 	while(1)

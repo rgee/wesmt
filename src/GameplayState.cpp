@@ -10,34 +10,59 @@ GLuint vShader, fShader, program;
 
 void GameplayState::Initialize()
 {
-
+    /* Test data */
     this->AddMass(Vector2D(300.0f, 400.0f), 500.0f, 20.0f);
     this->AddMass(Vector2D(400.0f, 300.0f), 40000.0f, 20.0f);
     this->AddMass(Vector2D(500.0f, 200.0f), 500.0f, 10.0f);
 
 
-    // Compile and link shaders.
+    /* Compile and link shaders. */
     SetupShaders();
     
-    // Enable sounds
+    /* Enable sounds */
     SetupSound();
+
+    /* Start sound */
+    BeginSound();
 }
 
-
+/**
+ * Adds a gravity well to the system if the current number of wells <= the maximum
+ * number of wells allowed. If not, does nothing.
+ * Parameters:
+ *  - Vector2D position: A vector representing the position at which the well should exist.
+ *  - double lifespan: The number of seconds the well should exist.
+ */
 void GameplayState::AddWell(Vector2D position, double lifespan)
 {
     if(wells.size() >= kMaxWells) return;
     wells.push_back(WellPtr(new Well(position, 30000.0f, lifespan))); 
 }
 
+/**
+ * Adds a mass to the system if the current number of masses <= the maximum number
+ * of masses allowed. If not, does nothing.
+ *
+ * Parameters:
+ *  - Vector2D position: A vector representing the position at which the mass starts.
+ *  - float mass: The mass value of the new mass
+ *  - float size: The visible size of the mass
+ */
 void GameplayState::AddMass(Vector2D position, float mass, float size)
 {
     if(masses.size() >= kMaxMasses) return;
-    masses.push_back(MassPtr(new Mass(position, Vector2D(0.0f,0.0f), mass, size, 255.0f, 255.0f, 255.0f)));
+    masses.push_back(MassPtr(new Mass(position, Vector2D(0.0f,0.0f), mass, size, 200, 150, 20)));
     this->totalMass += mass;
 }
 
 
+/**
+ * Check the resultof FMOD functions to determine success. If the result is FMOD_OK, does nothing.
+ * If it isn't, the result error is printed.
+ * 
+ * Parameters:
+ *  - FMOD_RESULT result: The result to be checked. FMOD functions generally return these
+ */
 void GameplayState::FMODCheckError(FMOD_RESULT result)
 {
     if(result != FMOD_OK)
@@ -46,6 +71,9 @@ void GameplayState::FMODCheckError(FMOD_RESULT result)
     }
 }
 
+/**
+ * Initialize sound system and checks for errors
+ */
 void GameplayState::SetupSound()
 {
     /* Create the audio system */
@@ -54,12 +82,20 @@ void GameplayState::SetupSound()
     /* Initialize the audio system */
     FMODCheckError(system->init(1, FMOD_INIT_NORMAL, 0));
 
+
+
+}
+
+/**
+ * Begins playing the gameplay sound
+ */
+void GameplayState::BeginSound()
+{
     /* Create a streaming resource to an audio file. (Saves memory over decoding an entire file at once) */
     FMODCheckError(system->createStream("../media/multitouch01.mp3", FMOD_HARDWARE | FMOD_LOOP_NORMAL | FMOD_2D, 0, &sound));
 
     /* Play the sound, looping */
     FMODCheckError(system->playSound(FMOD_CHANNEL_FREE, sound, false, &channel));
-
 }
 
 void GameplayState::SetupShaders()
@@ -77,11 +113,11 @@ void GameplayState::SetupShaders()
                           !GLEE_ARB_shader_objects || 
                           !GLEE_ARB_shading_language_100))
     {
-        // Should quit
-        
+        /* Can't initialize OpenGL Extensions */
+        exit(1);
     }
 
-    // Create shader objects and specify shader contents
+    /* Create shader objects and specify shader contents */
     vShader = glCreateShader(GL_VERTEX_SHADER);
     fShader = glCreateShader(GL_FRAGMENT_SHADER);
 
@@ -91,7 +127,7 @@ void GameplayState::SetupShaders()
     fsStringPtr[0] = fsString;
     glShaderSource(fShader, 1, fsStringPtr, NULL);
 
-    // Compile and check for errors
+    /* Compile and check for errors */
     glCompileShader(vShader);
     glGetShaderiv(vShader, GL_COMPILE_STATUS, &success);
     if(!success)

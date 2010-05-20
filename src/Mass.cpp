@@ -51,7 +51,7 @@ void Mass::ApplyGravityFrom(Particle& body, float timestep)
        delta xv = GMt * dx / d^3
        delta yv = GMt * dy / d^3
     Calculate once GMt / d^3 (d has been pre-cubed): */
-    float hertz = body.GetMass() * timestep * -0.0015 / d;
+    float hertz = body.GetMass() * timestep * -0.0015f / d;
 
     this->velocity = Vector2D(hertz*dx + this->velocity.X(),
                               hertz*dy + this->velocity.Y());

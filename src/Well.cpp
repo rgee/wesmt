@@ -16,7 +16,7 @@ bool Well::CheckTime()
 
 void Well::Draw()
 {
-    /*
+    /* Circle drawing. Uses tons of vertices. Better to draw a circle textured to a quad.
     GLfloat vertices[722];
     float cnst = 3.1415927/360;
     for(int i = 0; i < 722; i+=2){
