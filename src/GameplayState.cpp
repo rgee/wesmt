@@ -154,7 +154,12 @@ void GameplayState::SetupShaders()
 
 
 
-
+/**
+ * Releases all resources currently held. In the future, this function
+ * should release all level-agnostic resoruces and cleanup those things.
+ * Level-specific resources should be released manually. This function is
+ * called when this game state is removed from the stack
+ */
 void GameplayState::Cleanup()
 {
 
@@ -166,6 +171,9 @@ void GameplayState::Cleanup()
     FMODCheckError(system->release());
 }
 
+/**
+ * Handles SDL events.
+ */
 bool GameplayState::HandleEvents()
 {
     SDL_Event event;
@@ -174,13 +182,16 @@ bool GameplayState::HandleEvents()
 	{
         switch(event.type)
         {
+        /* Exit game */
         case SDL_QUIT:
             return false;
         case SDL_MOUSEBUTTONDOWN:
+            /* Add a well */
             if(event.button.button == SDL_BUTTON_LEFT)
             {
                 this->AddWell(Vector2D((float)event.button.x, (float)event.button.y), 5);
             }
+            /* Add a mass */
             else if(event.button.button == SDL_BUTTON_RIGHT)
             {
                 this->AddMass(Vector2D((float)event.button.x, (float)event.button.y), 50.0f, 2.0f);
@@ -190,6 +201,7 @@ bool GameplayState::HandleEvents()
         case SDL_KEYDOWN:
             switch(event.key.keysym.sym)       
             {
+                /* Zoom out */
                 case SDLK_DOWN:
                     if((this->zoomFactor - 0.1f) <= 0)
                     {
@@ -200,9 +212,11 @@ bool GameplayState::HandleEvents()
                         this->zoomFactor -= 0.1f;
                     }
                     break;
+                /* Zoom in */
                 case SDLK_UP:
                         this->zoomFactor += 0.1f;
                     break;
+                /* Exit game */
                 case SDLK_ESCAPE: 
                     return false;
                     break;
@@ -242,6 +256,12 @@ void GameplayState::Render()
     SDL_GL_SwapBuffers();
 }
 
+/**
+ * Called once each frame to update the state of gameplay. Currently this function performs
+ * the following operations:
+ *  - Removes any dead gravity wells
+ *  - Applies gravity from each gravity well to all masses in the system
+ */
 bool GameplayState::Update()
 {
     if(!this->HandleEvents()) return false;

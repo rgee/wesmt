@@ -40,22 +40,24 @@ public:
     virtual ~Well() {};
 
 
-    // See if this gravity well has expired
-    // Returning true means the gravity well has not expired.
+    /* See if this gravity well has expired */
     bool CheckTime();
 
+    /* Set the lifespan of this well */
     void SetLifespan(double newLifespan) { lifespan = newLifespan; }
 
+    /* Draw the well */
     void Draw();
 private:
 
-    // The lifespan, in seconds of this gravity well
+    /* The lifespan, in seconds of this gravity well */
     double lifespan;
 
-    // Time objects to hold the time when this well was made active
-    // and the time it may end.
+    /* Time objects to hold the time when this well was made active
+       and the time it may end. */
     time_t start, end;
     
+    /* Visual size of the well object */
     float size;
 };
 

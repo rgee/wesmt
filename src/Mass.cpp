@@ -31,7 +31,15 @@ void Mass::Draw()
 
 }
 
-void Mass::ApplyGravityFrom(Particle& body, float timestep)
+/**
+ * Applies gravity from a particle to the current mass
+ *
+ * Parameters:
+ *  - Particle body: A const reference to the particle applying
+ *                   gravity to this mass.
+ *  - float timestep: The timestep to use for physics integration
+ */
+void Mass::ApplyGravityFrom(const Particle& body, float timestep)
 {
     float dx = this->position.X() - body.GetPosition().X(),
           dy = this->position.Y() - body.GetPosition().Y(),

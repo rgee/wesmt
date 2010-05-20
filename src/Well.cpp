@@ -1,9 +1,16 @@
 #include "Well.h"
 
+/**
+ * Checks if this gravity well has exceeded its lifespan.
+ *
+ * Returns:
+ *  - true if the well is dead (its lifespan has passed)
+ *  - false if the well is still alive
+ */
 bool Well::CheckTime()
 {
-    // Grab the current time and compare it to
-    // the creation time
+    /* Grab the current time and compare it to
+       the creation time */
     time(&end);
     if(difftime(end, start) >= lifespan)
     {
