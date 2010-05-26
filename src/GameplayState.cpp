@@ -15,7 +15,6 @@ void GameplayState::Initialize()
     this->AddMass(Vector2D(400.0f, 300.0f), 40000.0f, 20.0f);
     this->AddMass(Vector2D(500.0f, 200.0f), 500.0f, 10.0f);
 
-
     /* Compile and link shaders. */
     SetupShaders();
     

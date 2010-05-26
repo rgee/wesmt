@@ -36,7 +36,7 @@ public:
     virtual ~Mass(){};
 
     /* Applies gravitational force from another body */
-    void ApplyGravityFrom(Particle& body, float timestep);
+    void ApplyGravityFrom(const Particle& body, float timestep);
 
     /* Draws this mass to the screen */
     void Draw();
